@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boutique — Pèlerinage de Saint Michel</title>
+<meta name="description" content="La boutique du pèlerinage : carré de soie de l'itinéraire, médaille de saint Michel, livret du pèlerin, chapelet.">
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  html, body { margin: 0; height: 100%; background: var(--navy-900); }
+  #site-scroll { height: 100vh; overflow-y: auto; scroll-behavior: smooth; background: var(--parchment); }
+  ::selection { background: var(--gold-300); color: var(--navy-800); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="ui.jsx"></script>
+<script type="text/babel" src="chrome.jsx"></script>
+<script type="text/babel" src="page.jsx"></script>
+<script type="text/babel">
+function Produit({ icon, nom, prix, desc }) {
+  return (
+    <div style={{ background: "var(--ivory)", border: "1px solid var(--line)", borderRadius: "var(--r-md)",
+      overflow: "hidden", boxShadow: "var(--shadow-sm)", display: "flex", flexDirection: "column" }}>
+      <div style={{ height: 180, background: "radial-gradient(120% 130% at 50% 0%, #1E5A85, #0A2940)",
+        display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+        <div style={{ position: "absolute", inset: 0, opacity: .5, background: "radial-gradient(closest-side at 50% 40%, rgba(214,183,117,.30), transparent 70%)" }} />
+        <span style={{ position: "relative", fontSize: 46, color: "var(--gold-300)" }}>{icon}</span>
+        <span style={{ position: "absolute", bottom: 10, fontFamily: "var(--font-sans)", fontSize: 10, fontWeight: 600,
+          letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--gold-200)", opacity: .8 }}>Visuel à venir</span>
+      </div>
+      <div style={{ padding: "20px 22px 24px", display: "flex", flexDirection: "column", flex: 1 }}>
+        <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 20, color: "var(--navy-700)" }}>{nom}</div>
+        <p style={{ fontFamily: "var(--font-body)", fontSize: 15.5, lineHeight: 1.5, color: "var(--ink-soft)", margin: "8px 0 16px", flex: 1 }}>{desc}</p>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, color: "var(--gold-700)" }}>{prix}</span>
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 12, letterSpacing: "0.06em",
+            textTransform: "uppercase", color: "var(--navy-800)", background: "var(--gold-500)", padding: "9px 16px", borderRadius: "var(--r-sm)" }}>Commander</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+function Page() {
+  const mob = useIsMobile(820);
+  return (
+    <PageShell active="Boutique">
+      <PageHero kicker="La boutique" title="Souvenirs & objets de marche"
+        subtitle="Quelques objets pour préparer la route et garder mémoire du pèlerinage."
+        photo="communion.jpg" pos="center 40%" />
+      <Section>
+        <Prose>
+          <p>La boutique du pèlerinage propose quelques objets liés à la marche et à la dévotion à saint
+            Michel. Les bénéfices soutiennent l'organisation, portée par des bénévoles.</p>
+        </Prose>
+        <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr 1fr" : "repeat(3,1fr)", gap: 22, marginTop: 28 }}>
+          <Produit icon="❧" nom="Carré de soie" prix="50 €" desc="L'itinéraire du pèlerinage peint sur soie : un souvenir d'exception, proposé au moment de l'inscription." />
+          <Produit icon="✛" nom="Médaille de saint Michel" prix="—" desc="À porter sur le chemin, sous la protection de l'Archange." />
+          <Produit icon="✦" nom="Chapelet de saint Michel" prix="—" desc="Le chapelet spécial à 39 grains, pour prier les neuf chœurs des anges." />
+          <Produit icon="❦" nom="Livret du pèlerin" prix="—" desc="Prières, chants et repères spirituels pour les trois jours." />
+          <Produit icon="◈" nom="Plomb de Saint-Michel" prix="—" desc="L'insigne du miquelot, refondu selon la tradition multiséculaire." />
+          <Produit icon="☩" nom="Textile de marche" prix="—" desc="T-shirt et tour de cou aux couleurs du pèlerinage." />
+        </div>
+        <p style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--stone-500)", textAlign: "center", marginTop: 24 }}>
+          Catalogue en cours de constitution — visuels et tarifs à venir.
+        </p>
+      </Section>
+      <CtaBand title="Bientôt en ligne" sub="En attendant, inscrivez-vous au pèlerinage 2026." label="S'inscrire" />
+    </PageShell>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Page />);
+</script>
+<script src="anims.js"></script>
+</body>
+</html>

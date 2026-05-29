@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Programme — Pèlerinage de Saint Michel</title>
+<meta name="description" content="Le déroulé des trois jours de marche, de Saint-Malo au Mont-Saint-Michel, du 8 au 10 mai 2026.">
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  html, body { margin: 0; height: 100%; background: var(--navy-900); }
+  #site-scroll { height: 100vh; overflow-y: auto; scroll-behavior: smooth; background: var(--parchment); }
+  ::selection { background: var(--gold-300); color: var(--navy-800); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="ui.jsx"></script>
+<script type="text/babel" src="chrome.jsx"></script>
+<script type="text/babel" src="page.jsx"></script>
+<script type="text/babel">
+function Day({ n, d, t, txt, photo }) {
+  return (
+    <article style={{ background: "var(--ivory)", border: "1px solid var(--line)", borderTop: "3px solid var(--gold-500)",
+      borderRadius: "var(--r-md)", overflow: "hidden", boxShadow: "var(--shadow-md)" }}>
+      <img src={"assets/photos/" + photo} alt="" style={{ width: "100%", height: 190, objectFit: "cover", display: "block" }} />
+      <div style={{ padding: "22px 24px 26px" }}>
+        <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 26, color: "var(--gold-700)" }}>{n}</div>
+        <Overline>{d}</Overline>
+        <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 22, letterSpacing: "0.03em",
+          color: "var(--navy-700)", margin: "6px 0 10px" }}>{t}</h3>
+        <p style={{ fontFamily: "var(--font-body)", fontSize: 16, lineHeight: 1.6, color: "var(--ink-soft)", margin: 0 }}>{txt}</p>
+      </div>
+    </article>
+  );
+}
+function Page() {
+  const mob = useIsMobile(820);
+  return (
+    <PageShell active="Programme">
+      <PageHero kicker="Le déroulé" title="Trois jours en marche"
+        subtitle="Du vendredi 8 au dimanche 10 mai 2026 — de la cathédrale de Saint-Malo au pied du Mont."
+        photo="marche-aube.jpg" pos="center 55%" />
+
+      <Section>
+        <SectionHead over="Le pèlerinage au quotidien" title="Marche, prière et fraternité" />
+        <Prose>
+          <p>Le pèlerinage est pédestre et les bivouacs se font sous tente. Chaque journée s'articule
+            autour de la marche en chapitre, ponctuée d'une messe, de temps de prière personnelle ou en
+            chapitre, d'enseignements et de témoignages sur le combat spirituel, saint Michel et les anges.
+            Laudes et complies sont proposées matin et soir.</p>
+        </Prose>
+      </Section>
+
+      <SectionWide bg="var(--ivory)">
+        <SectionHead over="Jour par jour" title="Le déroulé des trois jours" center />
+        <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "repeat(3,1fr)", gap: 26, marginTop: 8 }}>
+          <Day n="1" d="Vendredi 8 mai" t="Le départ" photo="depart-saintmalo.jpg"
+            txt="Rendez-vous le matin à la cathédrale de Saint-Malo : messe et procession dans la vieille ville, puis première marche vers le bivouac." />
+          <Day n="2" d="Samedi 9 mai" t="Le chemin" photo="montee-flambeaux.jpg"
+            txt="Marche en chapitre, topos et témoignages. Le soir, grande montée aux flambeaux jusqu'au Mont et veillée à l'abbatiale." />
+          <Day n="3" d="Dimanche 10 mai" t="L'arrivée" photo="mont-procession.jpg"
+            txt="Remise du plomb de Saint-Michel, puis messe de clôture vers 13h au pied du Mont." />
+        </div>
+      </SectionWide>
+
+      <Section>
+        <SectionHead over="Chaque jour" title="Les temps qui rythment la journée" />
+        <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "1fr 1fr", gap: 16 }}>
+          <InfoCard title="La messe">Au cœur de chaque journée, en commun ou en chapitre.</InfoCard>
+          <InfoCard title="La marche">Sur des itinéraires beaux et sécurisés ; des voitures-balais accompagnent les plus fatigués.</InfoCard>
+          <InfoCard title="Formation & topos">Enseignements et témoignages sur le combat spirituel et les anges.</InfoCard>
+          <InfoCard title="Laudes & complies">La prière de l'Église pour ouvrir et clore le jour.</InfoCard>
+        </div>
+      </Section>
+
+      <SectionWide bg="var(--parchment-2)">
+        <SectionHead over="Infos pratiques" title="L'essentiel à retenir" />
+        <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr 1fr" : "repeat(4,1fr)", gap: 18 }}>
+          {[["8–10","mai 2026"],["~25","km par jour"],["3","nuits en bivouac"],["8h30","RDV cathédrale St-Malo"]].map(([k,v],i)=>(
+            <div key={i} style={{ textAlign: "center" }}>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 44, color: "var(--navy-700)", lineHeight: 1 }}>{k}</div>
+              <div style={{ fontFamily: "var(--font-serif)", fontSize: 17, color: "var(--ink-soft)", marginTop: 6 }}>{v}</div>
+            </div>
+          ))}
+        </div>
+      </SectionWide>
+
+      <CtaBand title="Prêt à vous mettre en marche ?" sub="Les inscriptions pour l'édition 2026 sont ouvertes." label="S'inscrire" />
+    </PageShell>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Page />);
+</script>
+<script src="anims.js"></script>
+</body>
+</html>

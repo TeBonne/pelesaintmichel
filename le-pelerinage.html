@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le pèlerinage — Pèlerinage de Saint Michel</title>
+<meta name="description" content="Le pèlerinage de toute la France au Mont-Saint-Michel : présentation, pour qui, les chapitres, l'histoire des miquelots.">
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  html, body { margin: 0; height: 100%; background: var(--navy-900); }
+  #site-scroll { height: 100vh; overflow-y: auto; scroll-behavior: smooth; background: var(--parchment); }
+  ::selection { background: var(--gold-300); color: var(--navy-800); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="ui.jsx"></script>
+<script type="text/babel" src="chrome.jsx"></script>
+<script type="text/babel" src="page.jsx"></script>
+<script type="text/babel">
+const SUB = [["Présentation","le-pelerinage.html#presentation"],["Pour qui ?","le-pelerinage.html#pour-qui"],["Les chapitres","le-pelerinage.html#chapitres"],["Histoire & miquelots","le-pelerinage.html#histoire"]];
+function Page() {
+  return (
+    <PageShell active="Le pèlerinage">
+      <PageHero kicker="Le pèlerinage" title="De toute la France au Mont"
+        subtitle="Trois jours et trois nuits de marche et de prière, sous la bannière de saint Michel et des anges."
+        photo="mont-procession.jpg" pos="center 35%" />
+      <SubNav items={SUB} active="Présentation" />
+
+      <Section id="presentation">
+        <SectionHead over="Présentation" title="Un pèlerinage millénaire qui renaît" />
+        <Prose>
+          <p>Le Mont-Saint-Michel est depuis plus de mille ans le principal lieu dans lequel les chrétiens
+            prient l'Archange, protecteur de la France. Alors que ce haut lieu attire de plus en plus de
+            pèlerins, nous proposons, avec le concours du sanctuaire, un pèlerinage régulier permettant aux
+            catholiques de France, de tous horizons, de cheminer à pied sous le patronage de saint Michel.</p>
+          <p>À l'occasion du 8 mai, jadis fête de l'Archange, la deuxième édition s'élance de Saint-Malo et
+            se conclut au Mont lui-même : trois jours pour nous tourner vers le Christ, par Marie, à l'école
+            et sous la protection de saint Michel.</p>
+        </Prose>
+        <div style={{ marginTop: 26 }}>
+          <div style={{ display: "grid", gridTemplateColumns: useIsMobile(680) ? "1fr" : "repeat(3,1fr)", gap: 18 }}>
+            <InfoCard title="Affermir la foi">Par les sacrements, la liturgie, l'enseignement et la prière.</InfoCard>
+            <InfoCard title="Transmettre">L'héritage spirituel et culturel des chemins du Mont.</InfoCard>
+            <InfoCard title="Vivre l'unité">Réunir toutes les générations et sensibilités de l'Église.</InfoCard>
+          </div>
+        </div>
+      </Section>
+
+      <SectionWide id="pour-qui" bg="var(--ivory)">
+        <SectionHead over="Pour qui ?" title="Ouvert à toute la France" />
+        <div style={{ display: "grid", gridTemplateColumns: useIsMobile(820) ? "1fr" : "1.1fr 0.9fr", gap: 36, alignItems: "center" }}>
+          <Prose>
+            <p>Le pèlerinage s'adresse à tous, individuels ou groupes constitués, qui veulent se mettre en
+              marche vers le Christ. Cette édition voit l'ouverture d'une <strong>branche famille-enfants</strong>,
+              dès 6 ans, marchant avec leurs parents dans des chapitres adaptés.</p>
+            <p>Il n'est pas obligatoire d'être baptisé ; il s'agit toutefois d'un pèlerinage catholique. La
+              marche se faisant à pied (20 à 30 km par jour) et les nuits en bivouac, une bonne forme
+              physique est nécessaire.</p>
+          </Prose>
+          <div style={{ borderRadius: "var(--r-md)", overflow: "hidden", boxShadow: "var(--shadow-md)" }}>
+            <img src="assets/photos/fraternite-marche.jpg" alt="Pèlerins en marche" style={{ width: "100%", height: 280, objectFit: "cover", display: "block" }} />
+          </div>
+        </div>
+      </SectionWide>
+
+      <Section id="chapitres">
+        <SectionHead over="Les chapitres" title="Marcher en chapitre" />
+        <Prose>
+          <p>Les pèlerins marchent en <strong>chapitres</strong>, petites unités de 15 à 50 marcheurs,
+            originaires d'une même paroisse, région ou groupe. Chaque chapitre est placé sous la protection
+            d'un saint de son choix, dirigé par un chef de chapitre, et accompagné si possible d'un prêtre
+            aumônier que les pèlerins connaissent.</p>
+          <p>Vous pouvez monter votre propre chapitre, rejoindre un chapitre de votre région, ou être
+            réparti par l'organisation. Un week-end de formation des chefs de chapitre est prévu au
+            Mont-Saint-Michel, alliant cohésion et prière.</p>
+        </Prose>
+      </Section>
+
+      <SectionWide id="histoire" bg="var(--parchment-2)">
+        <SectionHead over="Histoire & miquelots" title="Sur les chemins du paradis" />
+        <Prose>
+          <p>Un <strong>miquelot</strong>, c'est tout simplement un pèlerin du Mont Saint-Michel, et ce
+            depuis la fin du premier millénaire. Les « chemins du paradis » conduisaient au sanctuaire à
+            travers toute la France et toute l'Europe. En 2026, nous voulons mettre nos pas dans ceux qui
+            nous ont précédés pendant des siècles.</p>
+          <p>À l'arrivée, chaque pèlerin reçoit le <strong>plomb de Saint-Michel</strong>, insigne refondu
+            pour l'occasion : la reprise d'une tradition multiséculaire, attestée au Mont du XIᵉ au
+            XVIIIᵉ siècle, souvenir de l'engagement au combat spirituel.</p>
+        </Prose>
+      </SectionWide>
+
+      <CtaBand title="Rejoignez la marche 2026" sub="Du 8 au 10 mai, de Saint-Malo au Mont." label="Devenir miquelot" />
+    </PageShell>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Page />);
+</script>
+<script src="anims.js"></script>
+</body>
+</html>

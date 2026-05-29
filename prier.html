@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prier & se former — Pèlerinage de Saint Michel</title>
+<meta name="description" content="Prier saint Michel : la prière de Léon XIII, le chapelet de saint Michel, la neuvaine aux anges.">
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  html, body { margin: 0; height: 100%; background: var(--navy-900); }
+  #site-scroll { height: 100vh; overflow-y: auto; scroll-behavior: smooth; background: var(--parchment); }
+  ::selection { background: var(--gold-300); color: var(--navy-800); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="ui.jsx"></script>
+<script type="text/babel" src="chrome.jsx"></script>
+<script type="text/babel" src="page.jsx"></script>
+<script type="text/babel">
+const SUB = [["Prière à saint Michel","prier.html#priere"],["Le chapelet","prier.html#chapelet"],["La neuvaine","prier.html#neuvaine"],["Les anges","prier.html#anges"]];
+function Priere({ children }) {
+  return (
+    <blockquote style={{ fontFamily: "var(--font-serif)", fontSize: 21, fontStyle: "italic", lineHeight: 1.6,
+      color: "var(--navy-700)", borderLeft: "3px solid var(--gold-500)", padding: "4px 0 4px 24px", margin: "18px 0 0" }}>
+      {children}
+    </blockquote>
+  );
+}
+function Page() {
+  return (
+    <PageShell active="Prier">
+      <PageHero kicker="Prier & se former" title="Sous la protection de l'Archange"
+        subtitle="Prier saint Michel, c'est nous rappeler que nous sommes tous appelés au salut offert par le Christ."
+        photo="veillee-abbatiale.jpg" pos="center 45%" />
+      <SubNav items={SUB} active="Prière à saint Michel" />
+
+      <Section id="priere">
+        <SectionHead over="Prière à saint Michel" title="« Défendez-nous dans le combat »" />
+        <Prose>
+          <p>La prière à saint Michel, composée par le pape Léon XIII, est au cœur de la dévotion à
+            l'Archange et du combat spirituel que nous vivons sur le chemin.</p>
+        </Prose>
+        <Priere>
+          « Saint Michel Archange, défendez-nous dans le combat ; soyez notre secours contre la malice et
+          les embûches du démon. Que Dieu lui fasse sentir son empire, nous vous en supplions. Et vous,
+          prince de la milice céleste, repoussez en enfer, par la force divine, Satan et les autres esprits
+          mauvais qui rôdent dans le monde en vue de perdre les âmes. Amen. »
+        </Priere>
+      </Section>
+
+      <SectionWide id="chapelet" bg="var(--ivory)">
+        <SectionHead over="Le chapelet de saint Michel" title="Les neuf chœurs des anges" />
+        <div style={{ display: "grid", gridTemplateColumns: useIsMobile(820) ? "1fr" : "1fr 1fr", gap: 32, alignItems: "start" }}>
+          <Prose>
+            <p>Saint Michel révéla en 1751, à Antonia d'Astonac, religieuse portugaise, qu'il voulait que
+              l'on compose en son honneur neuf salutations, correspondant aux neuf chœurs des anges. Telle
+              est l'origine du <strong>Chapelet de Saint Michel</strong>, qui se prie sur un chapelet
+              spécial à 39 grains.</p>
+            <p>À ceux qui le récitent, l'Archange assure sa protection continuelle pendant la vie et, après
+              la mort, la délivrance du purgatoire.</p>
+          </Prose>
+          <div>
+            <InfoCard title="Comment le prier">
+              Sur les 4 premiers grains : quatre « Notre Père » en l'honneur de saint Michel, saint Gabriel,
+              saint Raphaël et de notre ange gardien. Puis, pour chacun des neuf chœurs : un « Notre Père »,
+              trois « Je vous salue Marie » et la salutation du chœur.
+            </InfoCard>
+          </div>
+        </div>
+      </SectionWide>
+
+      <Section id="neuvaine">
+        <SectionHead over="La neuvaine" title="Neuf jours avec les anges" />
+        <Prose>
+          <p>En lien avec notre partenaire le réseau de prière <strong>Hozanna</strong>, une neuvaine est
+            proposée pour honorer les anges et demander leur intercession — une belle manière de préparer
+            son cœur avant la marche, ou de prolonger les grâces du pèlerinage.</p>
+        </Prose>
+      </Section>
+
+      <SectionWide id="anges" bg="var(--parchment-2)">
+        <SectionHead over="Les anges" title="Créés par amour, pour nous accompagner" />
+        <Prose>
+          <p>Comme nous, les anges ont été créés par Dieu, libres et par amour, afin de participer avec Lui
+            au bonheur éternel. En plus de louer et servir le Seigneur, ils ont reçu pour mission de nous
+            accompagner et de nous soutenir sur le chemin qui mène à Dieu.</p>
+          <p>Prier les anges, et notamment saint Michel, le premier d'entre eux, c'est donc nous rappeler
+            que nous sommes tous appelés au salut offert par le Christ.</p>
+        </Prose>
+      </SectionWide>
+
+      <CtaBand title="Marchons et prions ensemble" sub="« Dieu nous aime, et le mal ne l'emportera pas ! »" label="S'inscrire" />
+    </PageShell>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Page />);
+</script>
+<script src="anims.js"></script>
+</body>
+</html>

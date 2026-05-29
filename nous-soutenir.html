@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nous soutenir — Pèlerinage de Saint Michel</title>
+<meta name="description" content="Soutenir le pèlerinage : faire un don (66 % déductible), devenir bénévole, porter le pèlerinage dans la prière.">
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  html, body { margin: 0; height: 100%; background: var(--navy-900); }
+  #site-scroll { height: 100vh; overflow-y: auto; scroll-behavior: smooth; background: var(--parchment); }
+  ::selection { background: var(--gold-300); color: var(--navy-800); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="ui.jsx"></script>
+<script type="text/babel" src="chrome.jsx"></script>
+<script type="text/babel" src="page.jsx"></script>
+<script type="text/babel">
+function Tier({ montant, reel }) {
+  return (
+    <div style={{ background: "var(--ivory)", border: "1px solid var(--line)", borderTop: "3px solid var(--gold-500)",
+      borderRadius: "var(--r-md)", padding: "26px 22px", textAlign: "center", boxShadow: "var(--shadow-sm)" }}>
+      <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 40, color: "var(--navy-700)", lineHeight: 1 }}>{montant}</div>
+      <div style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--ink-soft)", margin: "10px 0 14px" }}>
+        soit <strong style={{ color: "var(--gold-700)" }}>{reel}</strong> après réduction d'impôt
+      </div>
+      <span style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 12, letterSpacing: "0.06em",
+        textTransform: "uppercase", color: "var(--navy-800)", background: "var(--gold-500)", padding: "10px 18px", borderRadius: "var(--r-sm)" }}>Je donne</span>
+    </div>
+  );
+}
+function Page() {
+  const mob = useIsMobile(820);
+  return (
+    <PageShell active="Nous soutenir">
+      <PageHero kicker="Nous soutenir" title="Faire marcher la France vers le Mont"
+        subtitle="Le pèlerinage est porté par des bénévoles. Votre soutien le rend possible et accessible à tous."
+        photo="messe-eveque.jpg" pos="center 35%" />
+
+      <Section>
+        <SectionHead over="Pourquoi donner" title="Une œuvre 100 % bénévole" />
+        <Prose>
+          <p>Né de l'initiative de jeunes laïcs, le pèlerinage est organisé sans aucun salarié. Chaque don
+            finance la <strong>sécurité des itinéraires</strong>, la <strong>logistique des bivouacs</strong>
+            et la <strong>beauté de la liturgie</strong>. Grâce à vous, le pèlerinage reste accessible à
+            tous, familles comprises.</p>
+        </Prose>
+      </Section>
+
+      <SectionWide bg="var(--ivory)">
+        <SectionHead over="Faire un don" title="Votre générosité, allégée par l'impôt" center />
+        <p style={{ fontFamily: "var(--font-body)", fontSize: 16, color: "var(--ink-soft)", textAlign: "center", maxWidth: 600, margin: "0 auto 28px" }}>
+          Votre don ouvre droit à une réduction d'impôt de 66 % de son montant.
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "repeat(3,1fr)", gap: 20 }}>
+          <Tier montant="20 €" reel="6,80 €" />
+          <Tier montant="50 €" reel="17 €" />
+          <Tier montant="100 €" reel="34 €" />
+        </div>
+      </SectionWide>
+
+      <Section>
+        <SectionHead over="Autres manières d'aider" title="Donner de son temps et de sa prière" />
+        <div style={{ display: "grid", gridTemplateColumns: mob ? "1fr" : "1fr 1fr", gap: 18 }}>
+          <InfoCard icon="✦" title="Devenir bénévole">Itinéraires, sécurité, logistique, liturgie, accueil : de nombreuses missions pour faire vivre le pèlerinage.</InfoCard>
+          <InfoCard icon="✦" title="Porter dans la prière">Confier le pèlerinage, ses pèlerins et ses intentions à l'intercession de saint Michel et des anges.</InfoCard>
+        </div>
+      </Section>
+
+      <CtaBand title="Soutenez le pèlerinage" sub="Un don de 50 € ne vous coûte réellement que 17 €." label="Faire un don" href="#" />
+    </PageShell>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Page />);
+</script>
+<script src="anims.js"></script>
+</body>
+</html>

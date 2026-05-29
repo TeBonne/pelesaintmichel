@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQ 2026 — Pèlerinage de Saint Michel</title>
+<meta name="description" content="Questions fréquentes sur le pèlerinage : généralités, inscription, déroulé, transport et affaires à prévoir.">
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  html, body { margin: 0; height: 100%; background: var(--navy-900); }
+  #site-scroll { height: 100vh; overflow-y: auto; scroll-behavior: smooth; background: var(--parchment); }
+  ::selection { background: var(--gold-300); color: var(--navy-800); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="ui.jsx"></script>
+<script type="text/babel" src="chrome.jsx"></script>
+<script type="text/babel" src="page.jsx"></script>
+<script type="text/babel">
+const DATA = [
+  ["Généralités", [
+    ["Quand et où a lieu le pèlerinage ?", "Du vendredi 8 mai 2026 au matin (cathédrale de Saint-Malo) au dimanche 10 mai 2026 vers 13h, au pied du Mont-Saint-Michel. Le rendez-vous de départ est à 8h30 à la cathédrale Saint-Vincent de Saint-Malo ; il est possible d'arriver dès la veille au soir, un terrain de bivouac étant mis à disposition."],
+    ["Qu'est-ce qu'un miquelot ?", "Un miquelot, c'est tout simplement un pèlerin du Mont Saint-Michel, et ce depuis la fin du premier millénaire."],
+    ["Qui organise le pèlerinage ?", "L'association Pèlerinage de saint Michel, composée de jeunes laïcs bénévoles, avec le soutien du sanctuaire du Mont-Saint-Michel. L'aumônier est le recteur du sanctuaire ; le réseau Hozanna est partenaire et l'évêque de Coutances et Avranches apporte son appui."],
+  ]],
+  ["Inscription", [
+    ["Combien coûte l'inscription ?", "Le tarif est unique, quelle que soit la durée et l'âge. Le règlement se fait en ligne (page de paiement associée au formulaire d'inscription). Tarif indicatif édition précédente : 50 € par personne."],
+    ["Faut-il être baptisé pour participer ?", "Non, le pèlerinage est ouvert à toute personne désireuse d'approfondir sa foi. Il s'agit toutefois d'un pèlerinage catholique."],
+    ["Peut-on venir en famille ?", "Oui : une branche famille-enfants accueille les enfants dès 6 ans, marchant avec leurs parents dans des chapitres adaptés (marche plus courte, spiritualité adaptée, arrivée plus tôt au bivouac)."],
+    ["Comment choisir son chapitre ?", "Lors de l'inscription, vous choisissez un chapitre selon votre ancrage géographique (région, diocèse, paroisse), une intention de prière ou une tranche d'âge. Vous pouvez aussi monter le vôtre."],
+  ]],
+  ["Déroulé", [
+    ["Combien de kilomètres par jour ?", "Environ 20 à 30 km par jour pour les adultes, 10 à 15 km pour les enfants. Des voitures-balais accompagnent les pèlerins fatigués."],
+    ["Quelles affaires prévoir ?", "Un grand sac (transporté par les camions) : affaires de rechange pour 3 jours, nécessaire de toilette, duvet chaud, tapis de sol, repas pour 4 jours, gilet jaune. Un petit sac pour la journée : chapelet, gourde, en-cas, livret du pèlerin."],
+  ]],
+  ["Transport", [
+    ["Comment se rendre au pèlerinage ?", "Des cars sont proposés au départ de plusieurs villes ; une plateforme de covoiturage est mise en place. Les gares les plus proches sont La Gouesnière, Dol-de-Bretagne et Pontorson. Des navettes assurent le retour le dimanche."],
+  ]],
+];
+function Item({ q, a }) {
+  const [open, setOpen] = React.useState(false);
+  return (
+    <div style={{ background: "var(--ivory)", border: "1px solid var(--line)", borderRadius: "var(--r-md)",
+      overflow: "hidden", boxShadow: "var(--shadow-sm)" }}>
+      <button onClick={() => setOpen(o => !o)} aria-expanded={open} style={{ width: "100%", textAlign: "left",
+        background: "none", border: "none", cursor: "pointer", padding: "18px 22px", display: "flex", alignItems: "center", gap: 14 }}>
+        <span style={{ color: "var(--gold-600)", fontSize: 15, transform: open ? "rotate(90deg)" : "none", transition: "transform .2s" }}>✦</span>
+        <span style={{ fontFamily: "var(--font-serif)", fontWeight: 600, fontSize: 19, color: "var(--navy-700)" }}>{q}</span>
+      </button>
+      {open && <div style={{ padding: "0 22px 20px 51px" }}><p style={{ fontFamily: "var(--font-body)", fontSize: 16.5,
+        lineHeight: 1.65, color: "var(--ink-soft)", margin: 0 }}>{a}</p></div>}
+    </div>
+  );
+}
+function Page() {
+  return (
+    <PageShell active="FAQ">
+      <PageHero kicker="Questions fréquentes" title="Avant de vous mettre en marche"
+        subtitle="Tout ce qu'il faut savoir sur l'édition 2026." photo="benediction.jpg" pos="center 40%" />
+      <Section>
+        {DATA.map(([cat, items], i) => (
+          <div key={cat} style={{ marginBottom: 40 }}>
+            <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 16, letterSpacing: "0.16em",
+              textTransform: "uppercase", color: "var(--gold-700)", margin: "0 0 16px" }}>{cat}</h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {items.map(([q, a]) => <Item key={q} q={q} a={a} />)}
+            </div>
+          </div>
+        ))}
+        <p style={{ fontFamily: "var(--font-body)", fontSize: 16, color: "var(--ink-soft)", textAlign: "center", marginTop: 8 }}>
+          Une autre question ? Écrivez-nous à <strong>inscription.pelesaintmichel@gmail.com</strong>
+        </p>
+      </Section>
+      <CtaBand title="Toutes vos réponses, et en route !" label="S'inscrire" />
+    </PageShell>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<Page />);
+</script>
+<script src="anims.js"></script>
+</body>
+</html>

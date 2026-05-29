@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pèlerinage de Saint Michel 2026 — De Saint-Malo au Mont, 8–10 mai</title>
+<meta name="description" content="Pèlerinage catholique de toute la France au Mont-Saint-Michel : 3 jours de marche et de prière de Saint-Malo au Mont, du 8 au 10 mai 2026. Inscription en chapitre ou en individuel, branche famille dès 6 ans.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#103A5C">
+<link rel="canonical" href="https://www.pelesaintmichel.fr/">
+<!-- Open Graph / réseaux sociaux -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pèlerinage de Saint Michel">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Pèlerinage de Saint Michel 2026 — De Saint-Malo au Mont">
+<meta property="og:description" content="3 jours et 3 nuits de marche et de prière, du 8 au 10 mai 2026. Devenez miquelot.">
+<meta property="og:url" content="https://www.pelesaintmichel.fr/">
+<meta property="og:image" content="https://www.pelesaintmichel.fr/partage-1200x630.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<!-- Préconnexion polices (perf) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Données structurées : l'événement (à servir côté serveur en production) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "Pèlerinage de Saint Michel 2026",
+  "startDate": "2026-05-08",
+  "endDate": "2026-05-10",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "description": "Pèlerinage catholique de toute la France au Mont-Saint-Michel : 3 jours de marche et de prière de Saint-Malo au Mont.",
+  "location": [
+    { "@type": "Place", "name": "Cathédrale de Saint-Malo", "address": "Saint-Malo, France" },
+    { "@type": "Place", "name": "Mont-Saint-Michel", "address": "Le Mont-Saint-Michel, France" }
+  ],
+  "organizer": { "@type": "Organization", "name": "Association Pèlerinage de saint Michel", "url": "https://www.pelesaintmichel.fr/" },
+  "url": "https://www.pelesaintmichel.fr/"
+}
+</script>
+<!-- Données structurées : FAQ (résultats enrichis) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Qu'est-ce qu'un miquelot ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Un miquelot, c'est tout simplement un pèlerin du Mont Saint-Michel, et ce depuis la fin du premier millénaire." } },
+    { "@type": "Question", "name": "Faut-il marcher seul ou en groupe ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Vous pouvez vous inscrire seul, mais nous vous invitons à former un chapitre avec des pèlerins de votre région, si possible avec un prêtre aumônier." } },
+    { "@type": "Question", "name": "Combien de kilomètres par jour ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Environ 20 à 30 km par jour pour les adultes, sur routes balisées ou de campagne. Des voitures-balais accompagnent les pèlerins fatigués." } },
+    { "@type": "Question", "name": "Faut-il être baptisé pour participer ?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Non, le pèlerinage est ouvert à toute personne désireuse d'approfondir sa foi ; il s'agit toutefois d'un pèlerinage catholique." } }
+  ]
+}
+</script>
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  html, body { margin: 0; height: 100%; background: var(--navy-900); }
+  #site-scroll { height: 100vh; overflow-y: auto; scroll-behavior: smooth; background: var(--parchment); }
+  ::selection { background: var(--gold-300); color: var(--navy-800); }
+  a { -webkit-tap-highlight-color: transparent; }
+  /* Accessibilité : focus visible doré cohérent */
+  a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+    outline: 3px solid var(--focus-ring); outline-offset: 2px; border-radius: 2px;
+  }
+  /* Lien d'évitement (skip link) */
+  .skip-link {
+    position: fixed; top: -100px; left: 16px; z-index: 100;
+    background: var(--navy-700); color: var(--gold-100);
+    font-family: var(--font-sans); font-weight: 600; font-size: 14px;
+    padding: 12px 20px; border-radius: 0 0 6px 6px; text-decoration: none;
+    transition: top .2s ease;
+  }
+  .skip-link:focus { top: 0; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#contenu">Aller au contenu</a>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="ui.jsx"></script>
+<script type="text/babel" src="chrome.jsx"></script>
+<script type="text/babel" src="sections.jsx"></script>
+<script type="text/babel" src="inscription.jsx"></script>
+
+<script type="text/babel">
+function App() {
+  const [active, setActive] = React.useState("Accueil");
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    const container = document.getElementById("site-scroll");
+    if (el && container) container.scrollTo({ top: el.offsetTop - 70, behavior: "smooth" });
+  };
+  const onNav = (l) => {
+    setActive(l);
+    const map = { "Accueil": "site-scroll", "Le pèlerinage": "sec-prog", "Programme": "sec-prog",
+      "Prier": "sec-cit", "FAQ": "sec-faq" };
+    const sc = document.getElementById("site-scroll");
+    if (l === "Accueil") sc.scrollTo({ top: 0, behavior: "smooth" });
+    else if (l === "Nous soutenir") sc.scrollTo({ top: sc.scrollHeight, behavior: "smooth" });
+    else scrollTo(map[l]);
+  };
+  const onInscription = () => scrollTo("inscription");
+  return (
+    <div id="site-scroll">
+      <SiteHeader active={active} onNav={onNav} onInscription={onInscription} />
+      <main id="contenu">
+        <Hero onInscription={onInscription} />
+        <Chiffres />
+        <div id="sec-prog"><Programme /></div>
+        <div id="sec-cit"><Citation /></div>
+        <div id="sec-faq"><FAQ /></div>
+        <InscriptionForm />
+      </main>
+      <SiteFooter />
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+<script src="anims.js"></script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+/* ============================================================
+   PÈLERINAGE DE SAINT MICHEL — Fondations couleurs & typographie
+   Identité céleste : bleu nuit + or, sous le patronage de l'Archange.
+   Couleurs prélevées directement du logo officiel.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Mulish:wght@300;400;500;600;700&display=swap');
+
+/* Bitter — slab serif de marque, auto-hébergé (corps de texte web/print/signalétique) */
+@font-face {
+  font-family: 'Bitter';
+  src: url('fonts/Bitter-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Bitter';
+  src: url('fonts/Bitter-Italic-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- COULEURS DE MARQUE ---------- */
+  /* Bleu nuit — l'azur céleste, la profondeur, la nuit de la veillée */
+  --navy-950: #07223A;
+  --navy-900: #0A2940;
+  --navy-800: #0E3354;
+  --navy-700: #103A5C;   /* ★ Bleu de marque (logo) */
+  --navy-600: #16486E;
+  --navy-500: #1E5A85;
+  --navy-400: #3D7BA3;
+  --navy-300: #7BA7C4;
+  --navy-200: #B4CDDE;
+  --navy-100: #DCE8F0;
+
+  /* Or — la lumière incréée, l'auréole, l'enseigne du pèlerin */
+  --gold-800: #7E6230;
+  --gold-700: #9A7A3C;
+  --gold-600: #B8924A;
+  --gold-500: #C9A45E;   /* ★ Or de marque (logo) */
+  --gold-400: #D6B775;
+  --gold-300: #E3CD9B;
+  --gold-200: #EFE0C2;
+  --gold-100: #F6ECD8;
+
+  /* Neutres — parchemin, pierre, grève */
+  --ivory:      #FFFDF8;
+  --parchment:  #FAF5EA;   /* fond clair principal */
+  --parchment-2:#F4ECDB;
+  --stone-100:  #ECE4D3;
+  --stone-200:  #D9CFB9;
+  --stone-300:  #C2B79C;
+  --stone-400:  #9C9279;
+  --stone-500:  #6E6754;
+  --ink:        #1B2730;   /* texte sur fond clair (noir bleuté chaud) */
+  --ink-soft:   #3A4750;
+
+  /* Accents liturgiques (usage parcimonieux : fêtes, sceaux) */
+  --liturgic-red:    #7B2230;
+  --liturgic-purple: #4A2C5A;
+
+  /* ---------- RÔLES SÉMANTIQUES ---------- */
+  --bg:            var(--parchment);
+  --bg-elevated:   var(--ivory);
+  --bg-deep:       var(--navy-700);
+  --bg-deepest:    var(--navy-900);
+
+  --fg:            var(--ink);
+  --fg-muted:      var(--ink-soft);
+  --fg-faint:      var(--stone-500);
+  --fg-on-deep:    var(--gold-100);
+  --fg-on-deep-muted: #B9C8D4;
+
+  --accent:        var(--gold-600);
+  --accent-strong: var(--gold-700);
+  --link:          var(--navy-600);
+  --link-hover:    var(--navy-800);
+
+  --line:          var(--stone-200);
+  --line-strong:   var(--stone-300);
+  --line-gold:     var(--gold-500);
+  --line-on-deep:  rgba(201,164,94,0.40);
+
+  --focus-ring:    var(--gold-500);
+
+  /* ---------- TYPOGRAPHIE ---------- */
+  --font-display: 'Cinzel', 'Trajan Pro', Georgia, serif;        /* titres lapidaires gravés */
+  --font-serif:   'Cormorant Garamond', Georgia, serif;          /* grands titres élégants, citations */
+  --font-body:    'Bitter', 'Cormorant Garamond', Georgia, serif; /* texte courant — Bitter auto-hébergé */
+  --font-sans:    'Mulish', -apple-system, 'Segoe UI', sans-serif;     /* UI, légendes, mentions */
+
+  /* Échelle typographique (modulaire ~1.25) */
+  --t-display: clamp(2.6rem, 6vw, 4.6rem);
+  --t-h1: clamp(2.1rem, 4.4vw, 3.2rem);
+  --t-h2: clamp(1.7rem, 3.2vw, 2.3rem);
+  --t-h3: clamp(1.35rem, 2.2vw, 1.7rem);
+  --t-h4: 1.25rem;
+  --t-lead: 1.3rem;
+  --t-body: 1.075rem;
+  --t-small: 0.94rem;
+  --t-caption: 0.8rem;
+  --t-overline: 0.72rem;
+
+  --lh-tight: 1.1;
+  --lh-snug: 1.25;
+  --lh-normal: 1.55;
+  --lh-relaxed: 1.7;
+
+  --tracking-display: 0.06em;   /* Cinzel respire mieux espacé */
+  --tracking-overline: 0.28em;
+  --tracking-wide: 0.14em;
+
+  /* ---------- ESPACEMENT (base 8) ---------- */
+  --s-1: 4px;  --s-2: 8px;  --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+  --s-9: 96px; --s-10: 128px;
+
+  /* ---------- RAYONS ---------- */
+  /* Discrets : la marque est noble, peu d'arrondis ; les sceaux sont ronds */
+  --r-sm: 3px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --r-pill: 999px;
+
+  /* ---------- OMBRES & ÉLÉVATION ---------- */
+  --shadow-sm: 0 1px 2px rgba(10,41,64,0.06), 0 1px 3px rgba(10,41,64,0.05);
+  --shadow-md: 0 4px 12px rgba(10,41,64,0.10), 0 2px 4px rgba(10,41,64,0.06);
+  --shadow-lg: 0 16px 40px rgba(10,41,64,0.16), 0 4px 10px rgba(10,41,64,0.08);
+  --shadow-gold: 0 6px 22px rgba(158,122,60,0.28);
+  --glow-celestial: 0 0 60px rgba(214,183,117,0.35);
+}
+
+/* ============================================================
+   STYLES SÉMANTIQUES DE BASE
+   ============================================================ */
+
+.pele-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--t-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-display);
+  color: var(--navy-700);
+  text-wrap: balance;
+}
+
+.pele-h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--t-h1);
+  line-height: var(--lh-snug);
+  color: var(--navy-700);
+  text-wrap: balance;
+}
+
+.pele-h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--t-h2);
+  line-height: var(--lh-snug);
+  color: var(--navy-700);
+  text-wrap: balance;
+}
+
+.pele-h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--t-h3);
+  line-height: var(--lh-snug);
+  letter-spacing: 0.03em;
+  color: var(--navy-700);
+}
+
+.pele-overline {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--t-overline);
+  letter-spacing: var(--tracking-overline);
+  text-transform: uppercase;
+  color: var(--gold-700);
+}
+
+.pele-lead {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: var(--t-lead);
+  line-height: var(--lh-relaxed);
+  color: var(--ink-soft);
+}
+
+.pele-body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--t-body);
+  line-height: var(--lh-relaxed);
+  color: var(--ink);
+}
+
+.pele-small {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--t-small);
+  line-height: var(--lh-normal);
+  color: var(--ink-soft);
+}
+
+.pele-caption {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--t-caption);
+  line-height: var(--lh-normal);
+  letter-spacing: 0.02em;
+  color: var(--stone-500);
+}
+
+/* Lettrine — initiale enluminée pour livret & textes spirituels */
+.pele-dropcap::first-letter {
+  font-family: var(--font-display);
+  font-weight: 700;
+  float: left;
+  font-size: 3.4em;
+  line-height: 0.82;
+  padding: 0.06em 0.12em 0 0;
+  color: var(--gold-600);
+}
+
+/* Filet doré — séparateur noble */
+.pele-rule-gold {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-500) 20%, var(--gold-500) 80%, transparent);
+}
