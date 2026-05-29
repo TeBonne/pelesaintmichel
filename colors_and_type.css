@@ -233,3 +233,23 @@
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold-500) 20%, var(--gold-500) 80%, transparent);
 }
+
+/* ============================================================
+   CTA — Halo angélique (aura crème-or vaporeuse, respirante)
+   Ajouter la classe .pele-cta-halo sur les boutons d'action dorés.
+   ============================================================ */
+.pele-cta-halo { position: relative; overflow: visible; }
+.pele-cta-halo::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 175%; height: 320%;
+  transform: translate(-50%, -50%) scale(0.92); border-radius: 50%; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(246,236,216,0.50), rgba(214,183,117,0.18) 48%, rgba(214,183,117,0) 72%);
+  filter: blur(18px); animation: peleAura 5.5s ease-in-out infinite; transition: transform 1.2s ease;
+}
+@keyframes peleAura {
+  0%, 100% { opacity: 0.28; transform: translate(-50%, -50%) scale(0.90); }
+  50%      { opacity: 0.52; transform: translate(-50%, -50%) scale(1.06); }
+}
+.pele-cta-halo:hover::after { transform: translate(-50%, -50%) scale(1.14); }
+@media (prefers-reduced-motion: reduce) {
+  .pele-cta-halo::after { animation: none; }
+}

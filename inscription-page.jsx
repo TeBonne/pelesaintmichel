@@ -189,7 +189,7 @@ function InscriptionComplete() {
             ? <button type="button" onClick={() => setStep(s => s + 1)} style={{ fontFamily: "var(--font-display)", fontWeight: 600,
                 fontSize: 13, letterSpacing: "0.07em", textTransform: "uppercase", background: "var(--navy-700)", color: "var(--gold-200)",
                 border: "none", padding: "12px 28px", borderRadius: "var(--r-sm)", cursor: "pointer" }}>Continuer</button>
-            : <button type="button" onClick={() => f.consent && setDone(true)} style={{ fontFamily: "var(--font-display)", fontWeight: 600,
+            : <button type="button" className="pele-cta-halo" onClick={() => f.consent && setDone(true)} style={{ fontFamily: "var(--font-display)", fontWeight: 600,
                 fontSize: 13, letterSpacing: "0.07em", textTransform: "uppercase", background: f.consent ? "var(--gold-500)" : "var(--stone-300)",
                 color: "var(--navy-800)", border: "none", padding: "12px 28px", borderRadius: "var(--r-sm)",
                 cursor: f.consent ? "pointer" : "not-allowed" }}>Valider & payer</button>}

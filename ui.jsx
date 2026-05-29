@@ -56,6 +56,7 @@ function Button({ children, variant = "primary", onClick, onDeep, style = {} }) 
   }
   return (
     <button onClick={onClick}
+      className={variant === "gold" ? "pele-cta-halo" : undefined}
       onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
       onMouseDown={() => setPress(true)} onMouseUp={() => setPress(false)}
       style={{ ...base, ...variants[variant], ...style }}>{children}</button>

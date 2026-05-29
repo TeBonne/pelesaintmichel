@@ -120,7 +120,7 @@ function SiteHeader({ active = "Accueil" }) {
         {!isMobile && (
           <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 10 }}>
             <SocialIcons />
-            <a href="inscription.html" style={{ fontFamily: "var(--font-display)", fontWeight: 600,
+            <a href="inscription.html" className="pele-cta-halo" style={{ fontFamily: "var(--font-display)", fontWeight: 600,
               fontSize: 13, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--navy-800)",
               background: "var(--gold-500)", padding: "11px 16px", borderRadius: "var(--r-sm)",
               textDecoration: "none", whiteSpace: "nowrap" }}>S'inscrire</a>
@@ -162,7 +162,7 @@ function SiteHeader({ active = "Accueil" }) {
               </div>
             );
           })}
-          <a href="inscription.html" style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 14,
+          <a href="inscription.html" className="pele-cta-halo" style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 14,
             letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--navy-800)", background: "var(--gold-500)",
             padding: "13px 18px", borderRadius: "var(--r-sm)", textDecoration: "none", textAlign: "center", marginTop: 14 }}>S'inscrire</a>
           <div style={{ marginTop: 16 }}><SocialIcons /></div>

@@ -90,7 +90,7 @@ function CtaBand({ title, sub, label = "S'inscrire", href = "inscription.html" }
         <h2 style={{ fontFamily: "var(--font-serif)", fontWeight: 600, fontSize: 34, color: "var(--gold-100)", margin: 0 }}>{title}</h2>
         {sub && <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: 20,
           color: "var(--fg-on-deep-muted)", margin: "12px 0 0" }}>{sub}</p>}
-        <div style={{ marginTop: 26 }}><a href={href} style={{ fontFamily: "var(--font-display)", fontWeight: 600,
+        <div style={{ marginTop: 26 }}><a href={href} className="pele-cta-halo" style={{ fontFamily: "var(--font-display)", fontWeight: 600,
           fontSize: 14, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--navy-800)",
           background: "var(--gold-500)", padding: "15px 32px", borderRadius: "var(--r-sm)", textDecoration: "none",
           display: "inline-block" }}>{label}</a></div>
