@@ -78,7 +78,7 @@ function SiteHeader({ active = "Accueil" }) {
         display: "flex", alignItems: "center", gap: 16 }}>
         <a href="index.html" aria-label="Pèlerinage de Saint Michel — accueil"
           style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-          <img src="assets/logo-medallion-cream.png" alt="Pèlerinage de Saint Michel"
+          <img src="logo-medallion-cream.png" alt="Pèlerinage de Saint Michel"
             style={{ height: isMobile ? 46 : 54 }} />
         </a>
 
@@ -184,7 +184,7 @@ function SiteFooter() {
       <div style={{ maxWidth: 1180, margin: "0 auto", display: "grid",
         gridTemplateColumns: isMobile ? "1fr 1fr" : "2fr 1fr 1fr 1fr", gap: isMobile ? 28 : 40, alignItems: "start" }}>
         <div style={{ gridColumn: isMobile ? "1 / -1" : "auto" }}>
-          <img src="assets/logo-medallion-cream.png" alt="" style={{ height: 76, marginBottom: 16 }} />
+          <img src="logo-medallion-cream.png" alt="" style={{ height: 76, marginBottom: 16 }} />
           <p style={{ fontFamily: "var(--font-serif)", fontSize: 16, lineHeight: 1.5,
             color: "var(--fg-on-deep)", margin: 0, fontStyle: "italic", whiteSpace: isMobile ? "normal" : "nowrap" }}>
             « Dieu nous aime, et le mal ne l'emportera pas ! »

@@ -11,6 +11,6 @@ Recréation haute-fidélité du site & des pages d'inscription du Pèlerinage de
 - `inscription.jsx` — `InscriptionForm` (3 étapes) + `Field`.
 
 ### À savoir
-- Les images proviennent de la **photothèque de l'édition 2026** (`assets/photos/`) — hero, programme et citation utilisent de vraies photos via le composant `PhotoSlot` (prop `src`). Le placeholder doré reste disponible pour les emplacements sans photo.
-- Couleurs, type et logo proviennent de `colors_and_type.css` et `assets/`.
+- Les images proviennent de la **photothèque de l'édition 2026** (``) — hero, programme et citation utilisent de vraies photos via le composant `PhotoSlot` (prop `src`). Le placeholder doré reste disponible pour les emplacements sans photo.
+- Couleurs, type et logo proviennent de `colors_and_type.css` et ``.
 - Maquette de démonstration : le formulaire ne soumet rien.

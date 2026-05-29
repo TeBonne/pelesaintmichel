@@ -8,7 +8,7 @@ function PageHero({ kicker, title, subtitle, photo = "mont-procession.jpg", pos 
   return (
     <section style={{ position: "relative", minHeight: 360, display: "flex", alignItems: "flex-end",
       overflow: "hidden" }}>
-      <img src={"assets/photos/" + photo} alt="" style={{ position: "absolute", inset: 0,
+      <img src={"" + photo} alt="" style={{ position: "absolute", inset: 0,
         width: "100%", height: "100%", objectFit: "cover", objectPosition: pos }} />
       <div style={{ position: "absolute", inset: 0,
         background: "linear-gradient(180deg, rgba(7,34,58,0.62) 0%, rgba(7,34,58,0.30) 45%, rgba(7,34,58,0.88) 100%)" }} />

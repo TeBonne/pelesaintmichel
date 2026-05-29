@@ -5,8 +5,8 @@
 // Logo (crest officiel) — taille via prop
 function Logo({ height = 44, variant = "color" }) {
   const src = variant === "medallion"
-    ? "assets/logo-medallion-cream.png"
-    : "assets/logo-pele-saint-michel.png";
+    ? "logo-medallion-cream.png"
+    : "logo-pele-saint-michel.png";
   return <img src={src} alt="Pèlerinage de Saint Michel" style={{ height, width: "auto", display: "block" }} />;
 }
 

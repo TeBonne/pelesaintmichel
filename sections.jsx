@@ -7,7 +7,7 @@ function Hero({ onInscription }) {
     <section style={{ position: "relative", minHeight: 660, display: "flex",
       alignItems: "flex-end", overflow: "hidden" }}>
       {/* illustration de marque (édition en cours) */}
-      <img src="assets/illustration-edition.png" alt="Saint Michel archange désignant le Mont-Saint-Michel — illustration de l'édition du pèlerinage"
+      <img src="illustration-edition.png" alt="Saint Michel archange désignant le Mont-Saint-Michel — illustration de l'édition du pèlerinage"
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%",
           objectFit: "cover", objectPosition: "center center" }} />
       {/* dégradé de protection : clair au centre, sombre en bas pour le texte */}
@@ -66,9 +66,9 @@ function Chiffres() {
 
 function Programme() {
   const days = [
-    { d: "Vendredi 8 mai", t: "Le départ", txt: "Messe à la cathédrale de Saint-Malo et procession dans les rues de la vieille ville, puis première marche vers le bivouac.", ph: "Cathédrale de Saint-Malo", src: "assets/photos/depart-saintmalo.jpg", pos: "center 40%" },
-    { d: "Samedi 9 mai", t: "Le chemin", txt: "Marche en chapitre, topos et témoignages sur le combat spirituel. Le soir, grande montée aux flambeaux jusqu'au Mont et veillée à l'abbatiale.", ph: "Montée aux flambeaux", src: "assets/photos/montee-flambeaux.jpg", pos: "center 35%" },
-    { d: "Dimanche 10 mai", t: "L'arrivée", txt: "Remise du plomb de Saint-Michel, insigne du pèlerin refondu pour l'occasion, et messe de clôture au pied du Mont.", ph: "Le Mont en majesté", src: "assets/photos/mont-procession.jpg", pos: "center 30%" },
+    { d: "Vendredi 8 mai", t: "Le départ", txt: "Messe à la cathédrale de Saint-Malo et procession dans les rues de la vieille ville, puis première marche vers le bivouac.", ph: "Cathédrale de Saint-Malo", src: "depart-saintmalo.jpg", pos: "center 40%" },
+    { d: "Samedi 9 mai", t: "Le chemin", txt: "Marche en chapitre, topos et témoignages sur le combat spirituel. Le soir, grande montée aux flambeaux jusqu'au Mont et veillée à l'abbatiale.", ph: "Montée aux flambeaux", src: "montee-flambeaux.jpg", pos: "center 35%" },
+    { d: "Dimanche 10 mai", t: "L'arrivée", txt: "Remise du plomb de Saint-Michel, insigne du pèlerin refondu pour l'occasion, et messe de clôture au pied du Mont.", ph: "Le Mont en majesté", src: "mont-procession.jpg", pos: "center 30%" },
   ];
   return (
     <section style={{ background: "var(--ivory)", padding: "80px 32px" }}>
@@ -103,7 +103,7 @@ function Programme() {
 function Citation() {
   return (
     <section style={{ position: "relative", padding: "120px 32px", overflow: "hidden" }}>
-      <img src="assets/photos/veillee-abbatiale.jpg" alt="Veillée à l'abbatiale"
+      <img src="veillee-abbatiale.jpg" alt="Veillée à l'abbatiale"
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%",
           objectFit: "cover", objectPosition: "center 40%" }} />
       <div style={{ position: "absolute", inset: 0,
