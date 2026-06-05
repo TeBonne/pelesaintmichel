@@ -1,9 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { getHomeContent } from "@/lib/queries";
-import { updateHero, updateCitation, updateSettings, replaceStats, replaceProgramme, replaceVideos, replaceFaq, replaceNav } from "../actions";
+import { updateHero, updateCitation, replaceStats, replaceProgramme, replaceVideos, replaceFaq } from "../actions";
 import SingletonForm from "@/components/admin/SingletonForm";
 import RepeaterForm from "@/components/admin/RepeaterForm";
-import NavEditor from "@/components/admin/NavEditor";
 import AdminShell from "@/components/admin/AdminShell";
 import AccessDenied from "@/components/admin/AccessDenied";
 
@@ -19,13 +18,6 @@ export default async function AdminAccueil() {
 
   return (
     <AdminShell title="Page d'accueil">
-      <NavEditor
-        title="Menu de l'en-tête"
-        description="Les entrées de navigation en haut du site. Chaque entrée peut avoir un sous-menu. Lien : une URL (ex. /boutique) ou une ancre (ex. #sec-prog)."
-        action={replaceNav}
-        initial={content.nav}
-      />
-
       <SingletonForm
         title="Bandeau d'accueil (Hero)"
         description="Le grand bloc en haut de page avec la vidéo de fond."
@@ -111,23 +103,6 @@ export default async function AdminAccueil() {
         fields={[
           { key: "question", label: "Question", required: true },
           { key: "answer", label: "Réponse", type: "textarea", rows: 3, required: true },
-        ]}
-      />
-
-      <SingletonForm
-        title="Réglages du site"
-        description="Pied de page, contact, lien d'inscription externe et réseaux sociaux."
-        action={updateSettings}
-        initial={content.settings || {}}
-        fields={[
-          { key: "inscription_url", label: "Lien d'inscription (externe)", hint: "URL de l'app d'inscription. Utilisée par tous les boutons « S'inscrire »." },
-          { key: "footer_quote", label: "Citation du pied de page" },
-          { key: "contact_email", label: "E-mail de contact" },
-          { key: "youtube_channel_url", label: "Lien chaîne YouTube" },
-          { key: "instagram_url", label: "Instagram" },
-          { key: "facebook_url", label: "Facebook" },
-          { key: "youtube_url", label: "YouTube (icône)" },
-          { key: "tiktok_url", label: "TikTok" },
         ]}
       />
     </AdminShell>
