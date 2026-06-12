@@ -23,6 +23,14 @@ const GROUPS = [
     ],
   },
   {
+    group: "Pages annexes",
+    items: [
+      { href: "/admin/a-propos", label: "À propos" },
+      { href: "/admin/contact", label: "Contact" },
+      { href: "/admin/mentions-legales", label: "Mentions légales" },
+    ],
+  },
+  {
     group: "Apparence",
     items: [
       { href: "/admin/menu", label: "Menu (en-tête)" },

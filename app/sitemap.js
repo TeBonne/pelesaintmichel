@@ -14,6 +14,9 @@ const PAGES = [
   { path: "/ressources", table: "page_ressources", priority: 0.6 },
   { path: "/boutique", table: "page_boutique", priority: 0.6 },
   { path: "/nous-soutenir", table: "page_soutenir", priority: 0.7 },
+  { path: "/a-propos", table: "simple_pages", slug: "apropos", priority: 0.5 },
+  { path: "/contact", table: "simple_pages", slug: "contact", priority: 0.5 },
+  { path: "/mentions-legales", table: "simple_pages", slug: "mentions", priority: 0.3 },
 ];
 
 export default async function sitemap() {
@@ -22,7 +25,7 @@ export default async function sitemap() {
     const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
     await Promise.all(
       PAGES.map(async (pg) => {
-        const { data } = await sb.from(pg.table).select("updated_at").eq("id", 1).maybeSingle();
+        const { data } = await sb.from(pg.table).select("updated_at").eq(pg.slug ? "slug" : "id", pg.slug ?? 1).maybeSingle();
         if (data?.updated_at) lastmod[pg.path] = new Date(data.updated_at);
       })
     );

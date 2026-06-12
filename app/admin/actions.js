@@ -271,6 +271,23 @@ export async function updatePageBoutique(v) { return singletonUpdate("page_bouti
 export async function updatePageSoutenir(v) { return singletonUpdate("page_soutenir", "Page Nous soutenir", ["/nous-soutenir"], v, [...META, "hero_image_alt"]); }
 export async function updatePageRecherche(v) { return singletonUpdate("page_recherche", "Page Recherche", ["/recherche"], v, [...META, "hero_image_alt"]); }
 
+// Pages annexes (À propos / Mentions légales / Contact) — clé = slug
+async function simplePageUpdate(slug, label, paths, v, requiredKeys) {
+  try {
+    const miss = missingRequired(v, requiredKeys);
+    if (miss.length) return { ok: false, error: "Enregistrement refusé : remplissez le(s) champ(s) obligatoire(s) (marqués *) — " + miss.join(", ") + "." };
+    const supabase = await getAuthedClient();
+    const { error } = await supabase.from("simple_pages").update({ ...v, updated_at: new Date().toISOString() }).eq("slug", slug);
+    if (error) return { ok: false, error: "Échec de l'enregistrement : " + error.message + ". Réessayez ; si le problème persiste, vérifiez vos droits ou reconnectez-vous." };
+    return finish(supabase, label, paths);
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+}
+export async function updateApropos(v) { return simplePageUpdate("apropos", "Page À propos", ["/a-propos"], v, [...META, "hero_image_alt"]); }
+export async function updateMentions(v) { return simplePageUpdate("mentions", "Page Mentions légales", ["/mentions-legales"], v, [...META, "hero_image_alt"]); }
+export async function updateContact(v) { return simplePageUpdate("contact", "Page Contact", ["/contact"], v, [...META, "hero_image_alt"]); }
+
 /* ---------- Pages internes : listes ---------- */
 export async function replacePeleCards(items) { return listReplace("pele_presentation_cards", "Présentation (cartes)", ["/le-pelerinage"], (it, i) => ({ title: it.title, text: it.text, sort_order: i + 1 }), items, ["title", "text"]); }
 export async function replacePelePartners(items) { return listReplace("pele_partners", "Partenaires", ["/le-pelerinage"], (it, i) => ({ nom: it.nom, tag: it.tag, logo_url: it.logo_url, description: it.description, sort_order: i + 1 }), items, ["nom", "logo_url"]); }

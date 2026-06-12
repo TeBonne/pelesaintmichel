@@ -56,6 +56,11 @@ export default function SiteFooter({ settings = SETTINGS_DEFAULT, socialLinks })
         <span style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--fg-on-deep-muted)" }}>
           Association Pèlerinage de saint Michel · avec le soutien du Sanctuaire du Mont-Saint-Michel
         </span>
+        <nav aria-label="Liens légaux" style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+          <a href="/a-propos" style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--fg-on-deep-muted)", textDecoration: "none" }}>À propos</a>
+          <a href="/contact" style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--fg-on-deep-muted)", textDecoration: "none" }}>Contact</a>
+          <a href="/mentions-legales" style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--fg-on-deep-muted)", textDecoration: "none" }}>Mentions légales</a>
+        </nav>
         <span style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--gold-500)", letterSpacing: "0.1em" }}>
           ✦ Du 8 au 10 mai 2026
         </span>
