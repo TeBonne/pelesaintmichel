@@ -249,9 +249,68 @@ section img.om-kb { animation: omKenBurns 18s ease-out forwards; }
 .om-zoom img { transition: transform .9s cubic-bezier(.22,.61,.36,1); }
 .om-zoom:hover img { transform: scale(1.05); }
 
+/* ------------------------------------------------------------
+   Signatures portées du Design System (anims.js) — opt-in/auto
+   ------------------------------------------------------------ */
+
+/* Barre de progression de lecture (or) — active même en reduced-motion */
+#om-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 9999; pointer-events: none;
+  background: linear-gradient(90deg, var(--gold-600), var(--gold-400));
+  transition: width .1s linear;
+}
+
+/* Titre « gravé » mot à mot (main h1) : base VISIBLE, animation one-shot
+   qui finit toujours nette → le titre reste lisible si React le recrée. */
+[data-om-kinetic].om-engrave { animation: omEngrave .9s cubic-bezier(.22,.61,.36,1) both; }
+@keyframes omEngrave {
+  from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+
+/* Voile doré qui balaie les images de carte au défilement */
+.om-wipe { position: relative; }
+.om-wipe > img, .om-wipe > .om-veiltarget { clip-path: inset(0 100% 0 0); }
+.om-wipe.om-in > img, .om-wipe.om-in > .om-veiltarget {
+  clip-path: inset(0 0 0 0); transition: clip-path 1s cubic-bezier(.76,0,.24,1);
+}
+.om-wipe > .om-veil {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  transform-origin: right; transform: scaleX(0);
+  background: linear-gradient(110deg, var(--gold-500), var(--gold-300));
+}
+.om-wipe.om-in > .om-veil { animation: omVeil 1s cubic-bezier(.76,0,.24,1) forwards; }
+@keyframes omVeil {
+  0%   { transform: scaleX(1); transform-origin: right; }
+  45%  { transform: scaleX(1); transform-origin: right; }
+  46%  { transform-origin: left; }
+  100% { transform: scaleX(0); transform-origin: left; }
+}
+
+/* Cartes à inclinaison 3D douce (le transform est piloté en JS) */
+.om-tilt {
+  transition: transform .3s cubic-bezier(.22,.61,.36,1), box-shadow .3s ease;
+  transform-style: preserve-3d; will-change: transform;
+}
+
+/* CTA magnétique (décalage piloté en JS, le halo doré existe déjà) */
+.om-mag { transition: transform .25s cubic-bezier(.22,.61,.36,1); }
+.om-mag > span { display: inline-block; transition: transform .25s cubic-bezier(.22,.61,.36,1); }
+
+/* Entrée du logo dans l'en-tête */
+header .om-logoin { animation: omLogoIn 1s cubic-bezier(.22,.61,.36,1) both; }
+@keyframes omLogoIn {
+  from { opacity: 0; transform: scale(.82); }
+  to   { opacity: 1; transform: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-om-reveal] { opacity: 1 !important; transform: none !important; }
   section img.om-kb { animation: none !important; }
+  [data-om-kinetic].om-engrave { animation: none !important; }
+  .om-wipe > img, .om-wipe > .om-veiltarget { clip-path: none !important; }
+  .om-wipe > .om-veil { display: none !important; }
+  header .om-logoin { animation: none !important; }
 }
 
 .pele-grid-videos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
