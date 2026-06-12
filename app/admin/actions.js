@@ -202,7 +202,7 @@ export async function replaceProgramme(items) {
 
 export async function replaceVideos(items) {
   try {
-    const rows = items.map((it, i) => ({ youtube_id: it.youtube_id, title: it.title, subtitle: it.subtitle, sort_order: i + 1 }));
+    const rows = items.map((it, i) => ({ youtube_id: it.youtube_id, title: it.title, subtitle: it.subtitle, published_at: it.published_at || null, sort_order: i + 1 }));
     return await replaceList("videos", rows, "Vidéos", ["youtube_id", "title"]);
   } catch (e) {
     return { ok: false, error: e.message };
@@ -299,7 +299,8 @@ export async function replaceProgFacts(items) { return listReplace("prog_facts",
 
 export async function replaceFaqItems(items) { return listReplace("faq_page_items", "FAQ", ["/faq"], (it, i) => ({ category: it.category, question: it.question, answer: it.answer, sort_order: i + 1 }), items, ["category", "question", "answer"]); }
 
-export async function replaceResVideos(items) { return listReplace("res_videos", "Ressources — Vidéos", ["/ressources"], (it, i) => ({ youtube_id: it.youtube_id, title: it.title, subtitle: it.subtitle, sort_order: i + 1 }), items, ["youtube_id", "title"]); }
+export async function replaceResVideos(items) { return listReplace("res_videos", "Ressources — Vidéos", ["/ressources"], (it, i) => ({ youtube_id: it.youtube_id, title: it.title, subtitle: it.subtitle, published_at: it.published_at || null, sort_order: i + 1 }), items, ["youtube_id", "title"]); }
+export async function replaceTestimonials(items) { return listReplace("testimonials", "Témoignages", ["/"], (it, i) => ({ author: it.author, role: it.role, quote: it.quote, rating: it.rating ? Number(it.rating) : null, sort_order: i + 1 }), items, ["author", "quote"]); }
 export async function replaceResPhotos(items) { return listReplace("res_photos", "Ressources — Photos", ["/ressources"], (it, i) => ({ image_url: it.image_url, caption: it.caption, sort_order: i + 1 }), items, ["image_url", "caption"]); }
 export async function replaceResDocuments(items) { return listReplace("res_documents", "Ressources — Documents", ["/ressources"], (it, i) => ({ title: it.title, description: it.description, tag: it.tag, url: it.url, sort_order: i + 1 }), items, ["title", "url"]); }
 export async function replaceResNewsletters(items) { return listReplace("res_newsletters", "Ressources — Newsletters", ["/ressources"], (it, i) => ({ title: it.title, date_label: it.date_label, description: it.description, url: it.url, sort_order: i + 1 }), items, ["title", "date_label", "url"]); }

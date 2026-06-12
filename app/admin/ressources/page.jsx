@@ -38,10 +38,11 @@ export default async function AdminRessources() {
         { key: "videos_title", label: "Titre" },
         { key: "channel_url", label: "Lien de la chaîne YouTube" },
       ]} />
-      <RepeaterForm title="Vidéos" action={replaceResVideos} initial={videos} emptyItem={{ youtube_id: "", title: "", subtitle: "" }} addLabel="Ajouter une vidéo" fields={[
+      <RepeaterForm title="Vidéos" action={replaceResVideos} initial={videos} emptyItem={{ youtube_id: "", title: "", subtitle: "", published_at: "" }} addLabel="Ajouter une vidéo" fields={[
         { key: "youtube_id", label: "ID vidéo YouTube", required: true },
         { key: "title", label: "Titre", required: true },
         { key: "subtitle", label: "Sous-titre" },
+        { key: "published_at", label: "Date de publication (SEO vidéo)", type: "date", hint: "Recommandée pour les résultats vidéo Google." },
       ]} />
 
       <SingletonForm title="Photos (titre)" action={up} initial={initial} fields={[

@@ -41,8 +41,24 @@ export default async function RessourcesPage() {
   const p = page || {};
   const inscriptionUrl = settings?.inscription_url;
 
+  const videoLd = (videos || [])
+    .filter((v) => v.published_at && v.youtube_id)
+    .map((v) => ({
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      name: v.title,
+      description: v.subtitle || v.title,
+      thumbnailUrl: [`https://i.ytimg.com/vi/${v.youtube_id}/hqdefault.jpg`],
+      uploadDate: v.published_at,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${v.youtube_id}`,
+      contentUrl: `https://www.youtube.com/watch?v=${v.youtube_id}`,
+    }));
+
   return (
     <>
+      {videoLd.length > 0 && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(videoLd) }} />
+      )}
       <a className="skip-link" href="#contenu">Aller au contenu</a>
       <SiteHeader nav={nav} socialLinks={settings} inscriptionUrl={inscriptionUrl} active="Ressources" />
       <main id="contenu">

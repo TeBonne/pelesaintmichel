@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { getHomeContent } from "@/lib/queries";
-import { updateHero, updateCitation, replaceStats, replaceProgramme, replaceVideos, replaceFaq } from "../actions";
+import { updateHero, updateCitation, replaceStats, replaceProgramme, replaceVideos, replaceFaq, replaceTestimonials } from "../actions";
 import SingletonForm from "@/components/admin/SingletonForm";
 import RepeaterForm from "@/components/admin/RepeaterForm";
 import AdminShell from "@/components/admin/AdminShell";
@@ -85,12 +85,13 @@ export default async function AdminAccueil() {
         title="Vidéos"
         action={replaceVideos}
         initial={content.videos}
-        emptyItem={{ youtube_id: "", title: "", subtitle: "" }}
+        emptyItem={{ youtube_id: "", title: "", subtitle: "", published_at: "" }}
         addLabel="Ajouter une vidéo"
         fields={[
           { key: "youtube_id", label: "ID vidéo YouTube", required: true },
           { key: "title", label: "Titre", required: true },
           { key: "subtitle", label: "Sous-titre" },
+          { key: "published_at", label: "Date de publication (SEO vidéo)", type: "date", hint: "Recommandée pour les résultats vidéo Google." },
         ]}
       />
 
@@ -103,6 +104,21 @@ export default async function AdminAccueil() {
         fields={[
           { key: "question", label: "Question", required: true },
           { key: "answer", label: "Réponse", type: "textarea", rows: 3, required: true },
+        ]}
+      />
+
+      <RepeaterForm
+        title="Témoignages"
+        description="Affichés sur l'accueil et utilisés pour les avis (étoiles) en SEO. La note est facultative."
+        action={replaceTestimonials}
+        initial={content.testimonials}
+        emptyItem={{ author: "", role: "", quote: "", rating: "" }}
+        addLabel="Ajouter un témoignage"
+        fields={[
+          { key: "author", label: "Auteur", required: true },
+          { key: "role", label: "Rôle / lieu (facultatif)", placeholder: "Pèlerin 2025, Rennes" },
+          { key: "quote", label: "Témoignage", type: "textarea", rows: 3, required: true },
+          { key: "rating", label: "Note sur 5 (facultatif)", type: "select", options: ["", "1", "2", "3", "4", "5"] },
         ]}
       />
     </AdminShell>
