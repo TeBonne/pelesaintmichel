@@ -151,7 +151,7 @@ export default async function PelerinagePage() {
         <RelatedLinks current="le-pelerinage" />
         <CtaBand title={p.cta_title} sub={p.cta_sub} label={p.cta_label || "Devenir miquelot"} href={p.cta_href || inscriptionUrl || "#"} />
       </main>
-      <SiteFooter settings={settings} socialLinks={settings} />
+      <SiteFooter settings={settings} socialLinks={settings} nav={nav} />
     </>
   );
 }

@@ -134,7 +134,7 @@ export default async function RessourcesPage() {
         <RelatedLinks current="ressources" />
         <CtaBand title={p.cta_title} sub={p.cta_sub} label={p.cta_label || "S'inscrire"} href={p.cta_href || inscriptionUrl || "#"} />
       </main>
-      <SiteFooter settings={settings} socialLinks={settings} />
+      <SiteFooter settings={settings} socialLinks={settings} nav={nav} />
     </>
   );
 }

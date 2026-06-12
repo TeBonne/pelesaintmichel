@@ -25,7 +25,7 @@ export default function SimplePageView({ page, nav, settings, current, path, sho
           )}
         </Section>
       </main>
-      <SiteFooter settings={settings} socialLinks={settings} />
+      <SiteFooter settings={settings} socialLinks={settings} nav={nav} />
     </>
   );
 }

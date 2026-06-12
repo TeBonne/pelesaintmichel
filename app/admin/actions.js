@@ -254,7 +254,11 @@ export async function replaceNav(items) {
         if (cErr) return { ok: false, error: cErr.message };
       }
     }
-    return finish(supabase, "Menu de l'en-tête");
+    // Le menu alimente l'en-tête ET le pied de page de TOUTES les pages :
+    // on revalide tout le site (mode "layout") pour une mise à jour immédiate partout.
+    if (supabase) await logActivity(supabase, "modification", "Menu de l'en-tête");
+    revalidatePath("/", "layout");
+    return { ok: true };
   } catch (e) {
     return { ok: false, error: e.message };
   }

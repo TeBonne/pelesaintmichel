@@ -303,7 +303,7 @@ section img.om-kb { animation: omKenBurns 18s ease-out forwards; }
   .pele-mobile-menu { display: flex; }
 }
 
-.pele-grid-footer { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr 1fr; gap: 36px; align-items: start; }
+.pele-grid-footer { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 36px; align-items: start; }
 @media (max-width: 720px) { .pele-grid-footer { grid-template-columns: 1fr 1fr; gap: 28px; } }
-.pele-footer-brand-col { grid-column: auto; }
+.pele-footer-brand-col { grid-column: span 2; }
 @media (max-width: 720px) { .pele-footer-brand-col { grid-column: 1 / -1; } }

@@ -9,9 +9,20 @@ export const SETTINGS_DEFAULT = {
 const colStyle = { display: "flex", flexDirection: "column", gap: 9 };
 const linkStyle = { fontFamily: "var(--font-body)", fontSize: 15, color: "var(--fg-on-deep-muted)", textDecoration: "none" };
 const headStyle = { fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 13, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--gold-400)", marginBottom: 4 };
+const headLinkStyle = { ...headStyle, textDecoration: "none", display: "inline-block" };
 
-export default function SiteFooter({ settings = SETTINGS_DEFAULT, socialLinks }) {
+/**
+ * Pied de page. Les colonnes de navigation sont générées automatiquement à
+ * partir du menu (`nav`) : chaque rubrique ayant des sous-rubriques devient une
+ * colonne, et les rubriques simples sont regroupées dans une colonne « Navigation ».
+ * Tout ajout / modification / suppression dans le menu (BO) se répercute ici.
+ */
+export default function SiteFooter({ settings = SETTINGS_DEFAULT, socialLinks, nav = [] }) {
   const s = { ...SETTINGS_DEFAULT, ...(settings || {}) };
+  const items = nav || [];
+  const withChildren = items.filter((it) => it.children && it.children.length > 0);
+  const flat = items.filter((it) => !it.children || it.children.length === 0);
+
   return (
     <footer id="contact" style={{ background: "var(--navy-900)", color: "var(--fg-on-deep)", padding: "56px 32px 36px" }}>
       <div className="pele-grid-footer" style={{ maxWidth: 1180, margin: "0 auto" }}>
@@ -20,37 +31,33 @@ export default function SiteFooter({ settings = SETTINGS_DEFAULT, socialLinks })
           <p style={{ fontFamily: "var(--font-serif)", fontSize: 16, lineHeight: 1.5, color: "var(--fg-on-deep)", margin: 0, fontStyle: "italic" }}>
             « {s.footer_quote} »
           </p>
+          {s.contact_email && (
+            <a href={`mailto:${s.contact_email}`} style={{ ...linkStyle, display: "inline-block", marginTop: 14 }}>
+              {s.contact_email}
+            </a>
+          )}
           <div style={{ marginTop: 18 }}>
             <SocialIcons links={socialLinks} />
           </div>
         </div>
-        <nav style={colStyle} aria-label="Le pèlerinage">
-          <div style={headStyle}>Le pèlerinage</div>
-          <a style={linkStyle} href="/le-pelerinage">Présentation</a>
-          <a style={linkStyle} href="#sec-prog">Programme</a>
-          <a style={linkStyle} href="#inscription">Devenir miquelot</a>
-          <a style={linkStyle} href="#sec-faq">FAQ 2026</a>
-        </nav>
-        <nav style={colStyle} aria-label="Prier & se former">
-          <div style={headStyle}>Prier & se former</div>
-          <a style={linkStyle} href="/prier#priere">Prier saint Michel</a>
-          <a style={linkStyle} href="/prier#anges">Les anges</a>
-          <a style={linkStyle} href="/prier#chapelet">Le chapelet</a>
-          <a style={linkStyle} href="/prier#neuvaine">La neuvaine</a>
-        </nav>
-        <nav style={colStyle} aria-label="Ressources">
-          <div style={headStyle}>Ressources</div>
-          <a style={linkStyle} href="#sec-videos">Vidéos</a>
-          <a style={linkStyle} href="/ressources#photos">Photos</a>
-          <a style={linkStyle} href="/ressources#documents">Documents PDF</a>
-          <a style={linkStyle} href="/ressources#newsletters">Newsletters</a>
-        </nav>
-        <nav style={colStyle} aria-label="Nous contacter">
-          <div style={headStyle}>Nous contacter</div>
-          <a style={linkStyle} href={`mailto:${s.contact_email}`}>Nous écrire</a>
-          <a style={linkStyle} href="/nous-soutenir">Faire un don</a>
-          <a style={linkStyle} href="/boutique">Boutique</a>
-        </nav>
+
+        {withChildren.map((rub) => (
+          <nav key={rub.id} style={colStyle} aria-label={rub.label}>
+            <a style={headLinkStyle} href={rub.href || "#"}>{rub.label}</a>
+            {rub.children.map((c, i) => (
+              <a key={i} style={linkStyle} href={c.href || "#"}>{c.label}</a>
+            ))}
+          </nav>
+        ))}
+
+        {flat.length > 0 && (
+          <nav style={colStyle} aria-label="Navigation">
+            <div style={headStyle}>Navigation</div>
+            {flat.map((it) => (
+              <a key={it.id} style={linkStyle} href={it.href || "#"}>{it.label}</a>
+            ))}
+          </nav>
+        )}
       </div>
       <div style={{ maxWidth: 1180, margin: "40px auto 0", paddingTop: 24, borderTop: "1px solid var(--line-on-deep)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
         <span style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--fg-on-deep-muted)" }}>

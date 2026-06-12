@@ -39,7 +39,7 @@ export default async function RecherchePage() {
         </Section>
         <RelatedLinks current="recherche" />
       </main>
-      <SiteFooter settings={settings} socialLinks={settings} />
+      <SiteFooter settings={settings} socialLinks={settings} nav={nav} />
     </>
   );
 }

@@ -157,7 +157,7 @@ export default async function HomePage() {
           />
         </div>
       </main>
-      <SiteFooter settings={settings} socialLinks={socialLinks} />
+      <SiteFooter settings={settings} socialLinks={socialLinks} nav={nav} />
     </>
   );
 }

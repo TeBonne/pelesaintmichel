@@ -74,7 +74,7 @@ export default async function SoutenirPage() {
         <RelatedLinks current="nous-soutenir" />
         <CtaBand title={p.cta_title} sub={p.cta_sub} label={p.cta_label || "Faire un don"} href={p.cta_href || "#"} />
       </main>
-      <SiteFooter settings={settings} socialLinks={settings} />
+      <SiteFooter settings={settings} socialLinks={settings} nav={nav} />
     </>
   );
 }
