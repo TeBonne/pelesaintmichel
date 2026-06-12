@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const config = {
+  // Racine du projet (évite l'avertissement « multiple lockfiles » et fiabilise le déploiement)
+  outputFileTracingRoot: import.meta.dirname,
   images: {
     remotePatterns: [
       {
