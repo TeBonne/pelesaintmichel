@@ -19,6 +19,11 @@ const AI_BOTS = [
 ];
 
 export default function robots() {
+  // Site privé (partage à des amis) : on interdit tout aux moteurs de recherche.
+  // Lancement officiel : NEXT_PUBLIC_SITE_INDEXABLE=true réactive les règles SEO ci-dessous.
+  if (process.env.NEXT_PUBLIC_SITE_INDEXABLE !== "true") {
+    return { rules: [{ userAgent: "*", disallow: "/" }] };
+  }
   return {
     rules: [
       { userAgent: AI_BOTS, allow: "/", disallow: "/admin" },

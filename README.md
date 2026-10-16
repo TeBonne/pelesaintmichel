@@ -14,6 +14,24 @@ Variables d'environnement dans `.env.local` (déjà renseignées) :
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (clé *publishable*, lecture seule via RLS)
 
+## Visibilité : site privé par défaut (non indexé)
+Tant que le site n'est pas lancé officiellement, il est **invisible pour les moteurs de recherche** :
+en-tête `X-Robots-Tag: noindex, nofollow, noarchive` sur toutes les pages (`next.config.mjs`)
+et `robots.txt` → `Disallow: /` (`app/robots.js`). On peut donc partager l'adresse à des amis sans
+risque de référencement.
+
+**Lancement officiel (référencement Google activé)** : ajouter la variable d'environnement
+`NEXT_PUBLIC_SITE_INDEXABLE=true` (dans `.env.local` en local, ou dans les réglages de l'hébergeur),
+puis redémarrer / redéployer. Le `robots.txt` complet (robots IA, sitemap, host) et le SEO sont
+déjà prêts — rien d'autre à faire.
+
+## Hébergement
+GitHub stocke le **code** mais ne peut pas *exécuter* ce site (GitHub Pages ne sert que des fichiers
+statiques : pas d'admin, pas de Server Actions, pas d'en-têtes HTTP). Le site se déploie **depuis**
+GitHub via un hébergeur Next.js (Vercel, gratuit) : chaque `git push` sur `main` redéploie automatiquement.
+Variables à renseigner chez l'hébergeur : les deux `NEXT_PUBLIC_SUPABASE_*` ci-dessus
+(et `NEXT_PUBLIC_SITE_INDEXABLE=true` seulement au lancement).
+
 ## Administration
 1. **Créer le compte admin** (une seule fois) dans le tableau de bord Supabase :
    Authentication → Users → *Add user* → *Create new user*
