@@ -67,10 +67,10 @@
 
   /* ---------- TYPOGRAPHIE ---------- */
   /* Les variables next/font (--font-cinzel, etc.) sont injectées sur <html>. */
-  --font-display: var(--font-cinzel), 'Trajan Pro', Georgia, serif;
-  --font-serif:   var(--font-cormorant), Georgia, serif;
+  --font-display: var(--font-cinzel-ext), var(--font-cinzel), 'Trajan Pro', Georgia, serif;
+  --font-serif:   var(--font-cormorant-ext), var(--font-cormorant), Georgia, serif;
   --font-body:    var(--font-bitter), var(--font-cormorant), Georgia, serif;
-  --font-sans:    var(--font-mulish), -apple-system, 'Segoe UI', sans-serif;
+  --font-sans:    var(--font-mulish-ext), var(--font-mulish), -apple-system, 'Segoe UI', sans-serif;
 
   --t-display: clamp(2.6rem, 6vw, 4.6rem);
   --t-h1: clamp(2.1rem, 4.4vw, 3.2rem);
