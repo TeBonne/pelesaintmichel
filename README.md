@@ -85,7 +85,7 @@ Réglages de sécurité Supabase recommandés (dashboard, optionnels) :
 - `components/admin/*` + `app/admin/*` — interface d'édition (formulaires + Server Actions
   dans `app/admin/actions.js`).
 - `lib/supabase/server.js` / `client.js` / `middleware.js` — clients `@supabase/ssr`.
-- `app/globals.css` — design tokens (portés de `colors_and_type.css`) ; polices via `next/font/local` (fichiers et licences dans `public/fonts`, aucune dependance a Google Fonts au build).
+- `app/globals.css` — design tokens (portés de `colors_and_type.css`) ; polices via `next/font/local` (fichiers et licences dans `public/fonts`, aucune dépendance à Google Fonts au build).
 
 ## Base de données (Supabase)
 Tables de contenu : `hero`, `stats`, `programme_days`, `citation`, `videos`, `faq`,
