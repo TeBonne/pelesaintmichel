@@ -81,7 +81,7 @@ Réglages de sécurité Supabase recommandés (dashboard, optionnels) :
   `lib/queries.js` → `getHomeContent()`. ISR `revalidate = 3600` + `revalidatePath('/')`
   à chaque sauvegarde admin.
 - `components/site/*` — sections (Hero, Chiffres, Programme, Citation, Videos, Faq,
-  SiteHeader, SiteFooter, InscriptionForm). `components/ui/*` — primitives.
+  SiteHeader, SiteFooter). `components/ui/*` — primitives.
 - `components/admin/*` + `app/admin/*` — interface d'édition (formulaires + Server Actions
   dans `app/admin/actions.js`).
 - `lib/supabase/server.js` / `client.js` / `middleware.js` — clients `@supabase/ssr`.

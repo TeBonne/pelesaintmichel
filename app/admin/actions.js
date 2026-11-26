@@ -1,10 +1,27 @@
 "use server";
 import { createClient } from "@/lib/supabase/server";
 import { getMfaState } from "@/lib/supabase/mfa";
+import { isAllowedImageUrl } from "@/lib/supabase/image-url-validator";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 const IMPOSSIBLE_UUID = "00000000-0000-0000-0000-000000000000";
+
+// Whitelist of editable fields per table (security: prevent injecting system columns like id, role, email)
+const EDIT_FIELDS = {
+  hero: ["overline", "title", "subtitle", "primary_label", "primary_href", "ghost_label", "ghost_href", "bg_image_url", "bg_image_alt", "youtube_id"],
+  citation: ["quote", "attribution", "bg_image_url", "bg_image_alt"],
+  site_settings: ["inscription_url", "footer_quote", "contact_email", "youtube_channel_url", "instagram_url", "facebook_url", "youtube_url", "tiktok_url"],
+  page_pelerinage: ["meta_title", "meta_description", "hero_image_url", "hero_image_alt", "eveque_image_url", "eveque_image_alt", "equipe_image_url", "equipe_image_alt", "pourqui_image_url", "pourqui_image_alt", "content"],
+  page_programme: ["meta_title", "meta_description", "hero_image_url", "hero_image_alt", "content"],
+  page_prier: ["meta_title", "meta_description", "hero_image_url", "hero_image_alt", "content"],
+  page_faq: ["meta_title", "meta_description", "hero_image_url", "hero_image_alt", "content"],
+  page_ressources: ["meta_title", "meta_description", "hero_image_url", "hero_image_alt", "content"],
+  page_boutique: ["meta_title", "meta_description", "hero_image_url", "hero_image_alt", "content"],
+  page_soutenir: ["meta_title", "meta_description", "hero_image_url", "hero_image_alt", "content"],
+  page_recherche: ["meta_title", "meta_description", "hero_image_url", "hero_image_alt", "content"],
+  simple_pages: ["meta_title", "meta_description", "hero_image_url", "hero_image_alt", "title", "content"],
+};
 
 async function getAuthedClient() {
   const supabase = await createClient();
@@ -51,12 +68,21 @@ function missingRequired(obj, keys) {
   return (keys || []).filter((k) => k in obj && !String(obj[k] ?? "").trim());
 }
 
-async function singletonUpdate(table, label, paths, v, requiredKeys) {
+async function singletonUpdate(table, label, paths, v, requiredKeys, allowedFields) {
   try {
     const miss = missingRequired(v, requiredKeys);
     if (miss.length) return { ok: false, error: "Enregistrement refusé : remplissez le(s) champ(s) obligatoire(s) (marqués *) — " + miss.join(", ") + "." };
+    // Validate image URLs
+    for (const k of allowedFields || []) {
+      if ((k.includes("url") || k.includes("image")) && v[k] && !isAllowedImageUrl(v[k])) {
+        return { ok: false, error: `L'adresse « ${k} » doit venir de Supabase ou du projet.` };
+      }
+    }
     const supabase = await getAuthedClient();
-    const patch = { ...v, updated_at: new Date().toISOString() };
+    const patch = { updated_at: new Date().toISOString() };
+    for (const k of allowedFields || []) {
+      if (k in v) patch[k] = v[k];
+    }
     const { error } = await supabase.from(table).update(patch).eq("id", 1);
     if (error) return { ok: false, error: "Échec de l'enregistrement : " + error.message + ". Réessayez ; si le problème persiste, vérifiez vos droits ou reconnectez-vous." };
     return finish(supabase, label, paths);
@@ -73,12 +99,9 @@ async function listReplace(table, label, paths, mapRow, items, requiredKeys) {
     }
     const rows = (items || []).map((it, i) => mapRow(it, i));
     const supabase = await getAuthedClient();
-    const { error: delErr } = await supabase.from(table).delete().neq("id", IMPOSSIBLE_UUID);
-    if (delErr) return { ok: false, error: delErr.message };
-    if (rows.length) {
-      const { error } = await supabase.from(table).insert(rows);
-      if (error) return { ok: false, error: "Échec de l'enregistrement : " + error.message + ". Réessayez ; si le problème persiste, vérifiez vos droits ou reconnectez-vous." };
-    }
+    // atomic: delete all rows and insert new ones in a single transaction
+    const { error } = await supabase.rpc("replace_list_atomic", { table_name: table, rows: rows });
+    if (error) return { ok: false, error: "Échec de l'enregistrement : " + error.message + ". Réessayez ; si le problème persiste, vérifiez vos droits ou reconnectez-vous." };
     return finish(supabase, label, paths);
   } catch (e) {
     return { ok: false, error: e.message };
@@ -88,95 +111,18 @@ async function listReplace(table, label, paths, mapRow, items, requiredKeys) {
 /* ---------- Singletons ---------- */
 
 export async function updateHero(v) {
-  try {
-    const miss = missingRequired(v, ["title", "bg_image_alt"]);
-    if (miss.length) return { ok: false, error: "Enregistrement refusé : remplissez le(s) champ(s) obligatoire(s) (marqués *) — " + miss.join(", ") + "." };
-    const supabase = await getAuthedClient();
-    const { error } = await supabase
-      .from("hero")
-      .update({
-        overline: v.overline,
-        title: v.title,
-        subtitle: v.subtitle,
-        primary_label: v.primary_label,
-        primary_href: v.primary_href,
-        ghost_label: v.ghost_label,
-        ghost_href: v.ghost_href,
-        bg_image_url: v.bg_image_url,
-        bg_image_alt: v.bg_image_alt,
-        youtube_id: v.youtube_id,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", 1);
-    if (error) return { ok: false, error: "Échec de l'enregistrement : " + error.message + ". Réessayez ; si le problème persiste, vérifiez vos droits ou reconnectez-vous." };
-    return finish(supabase, "Bandeau d'accueil");
-  } catch (e) {
-    return { ok: false, error: e.message };
-  }
+  return singletonUpdate("hero", "Bandeau d'accueil", ["/"], v, ["title", "bg_image_alt"], ["overline", "title", "subtitle", "primary_label", "primary_href", "ghost_label", "ghost_href", "bg_image_url", "bg_image_alt", "youtube_id"]);
 }
 
 export async function updateCitation(v) {
-  try {
-    const miss = missingRequired(v, ["quote", "bg_image_alt"]);
-    if (miss.length) return { ok: false, error: "Enregistrement refusé : remplissez le(s) champ(s) obligatoire(s) (marqués *) — " + miss.join(", ") + "." };
-    const supabase = await getAuthedClient();
-    const { error } = await supabase
-      .from("citation")
-      .update({
-        quote: v.quote,
-        attribution: v.attribution,
-        bg_image_url: v.bg_image_url,
-        bg_image_alt: v.bg_image_alt,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", 1);
-    if (error) return { ok: false, error: "Échec de l'enregistrement : " + error.message + ". Réessayez ; si le problème persiste, vérifiez vos droits ou reconnectez-vous." };
-    return finish(supabase, "Citation");
-  } catch (e) {
-    return { ok: false, error: e.message };
-  }
+  return singletonUpdate("citation", "Citation", ["/"], v, ["quote", "bg_image_alt"], ["quote", "attribution", "bg_image_url", "bg_image_alt"]);
 }
 
 export async function updateSettings(v) {
-  try {
-    const supabase = await getAuthedClient();
-    const { error } = await supabase
-      .from("site_settings")
-      .update({
-        inscription_url: v.inscription_url,
-        footer_quote: v.footer_quote,
-        contact_email: v.contact_email,
-        youtube_channel_url: v.youtube_channel_url,
-        instagram_url: v.instagram_url,
-        facebook_url: v.facebook_url,
-        youtube_url: v.youtube_url,
-        tiktok_url: v.tiktok_url,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", 1);
-    if (error) return { ok: false, error: "Échec de l'enregistrement : " + error.message + ". Réessayez ; si le problème persiste, vérifiez vos droits ou reconnectez-vous." };
-    return finish(supabase, "Réglages du site");
-  } catch (e) {
-    return { ok: false, error: e.message };
-  }
+  return singletonUpdate("site_settings", "Réglages du site", ["/"], v, [], ["inscription_url", "footer_quote", "contact_email", "youtube_channel_url", "instagram_url", "facebook_url", "youtube_url", "tiktok_url"]);
 }
 
 /* ---------- Listes (remplacement complet, ordre = position) ---------- */
-
-async function replaceList(table, rows, detail, requiredKeys) {
-  for (let i = 0; i < rows.length; i++) {
-    const miss = (requiredKeys || []).filter((k) => !String(rows[i][k] ?? "").trim());
-    if (miss.length) return { ok: false, error: `Enregistrement refusé — ligne #${i + 1} : remplissez le(s) champ(s) obligatoire(s) (marqués *) — ${miss.join(", ")}.` };
-  }
-  const supabase = await getAuthedClient();
-  const { error: delErr } = await supabase.from(table).delete().neq("id", IMPOSSIBLE_UUID);
-  if (delErr) return { ok: false, error: delErr.message };
-  if (rows.length) {
-    const { error } = await supabase.from(table).insert(rows);
-    if (error) return { ok: false, error: "Échec de l'enregistrement : " + error.message + ". Réessayez ; si le problème persiste, vérifiez vos droits ou reconnectez-vous." };
-  }
-  return finish(supabase, detail);
-}
 
 export async function replaceStats(items) {
   try {
@@ -270,31 +216,35 @@ export async function replaceNav(items) {
 
 /* ---------- Pages internes : singletons ---------- */
 const META = ["meta_title", "meta_description"];
-export async function updatePagePelerinage(v) { return singletonUpdate("page_pelerinage", "Page Le pèlerinage", ["/le-pelerinage"], v, [...META, "hero_image_alt", "eveque_image_alt", "equipe_image_alt", "pourqui_image_alt"]); }
-export async function updatePageProgramme(v) { return singletonUpdate("page_programme", "Page Programme", ["/programme"], v, [...META, "hero_image_alt"]); }
-export async function updatePagePrier(v) { return singletonUpdate("page_prier", "Page Prier", ["/prier"], v, [...META, "hero_image_alt"]); }
-export async function updatePageFaq(v) { return singletonUpdate("page_faq", "Page FAQ", ["/faq"], v, [...META, "hero_image_alt"]); }
-export async function updatePageRessources(v) { return singletonUpdate("page_ressources", "Page Ressources", ["/ressources"], v, [...META, "hero_image_alt"]); }
-export async function updatePageBoutique(v) { return singletonUpdate("page_boutique", "Page Boutique", ["/boutique"], v, [...META, "hero_image_alt"]); }
-export async function updatePageSoutenir(v) { return singletonUpdate("page_soutenir", "Page Nous soutenir", ["/nous-soutenir"], v, [...META, "hero_image_alt"]); }
-export async function updatePageRecherche(v) { return singletonUpdate("page_recherche", "Page Recherche", ["/recherche"], v, [...META, "hero_image_alt"]); }
+export async function updatePagePelerinage(v) { return singletonUpdate("page_pelerinage", "Page Le pèlerinage", ["/le-pelerinage"], v, [...META, "hero_image_alt", "eveque_image_alt", "equipe_image_alt", "pourqui_image_alt"], EDIT_FIELDS.page_pelerinage); }
+export async function updatePageProgramme(v) { return singletonUpdate("page_programme", "Page Programme", ["/programme"], v, [...META, "hero_image_alt"], EDIT_FIELDS.page_programme); }
+export async function updatePagePrier(v) { return singletonUpdate("page_prier", "Page Prier", ["/prier"], v, [...META, "hero_image_alt"], EDIT_FIELDS.page_prier); }
+export async function updatePageFaq(v) { return singletonUpdate("page_faq", "Page FAQ", ["/faq"], v, [...META, "hero_image_alt"], EDIT_FIELDS.page_faq); }
+export async function updatePageRessources(v) { return singletonUpdate("page_ressources", "Page Ressources", ["/ressources"], v, [...META, "hero_image_alt"], EDIT_FIELDS.page_ressources); }
+export async function updatePageBoutique(v) { return singletonUpdate("page_boutique", "Page Boutique", ["/boutique"], v, [...META, "hero_image_alt"], EDIT_FIELDS.page_boutique); }
+export async function updatePageSoutenir(v) { return singletonUpdate("page_soutenir", "Page Nous soutenir", ["/nous-soutenir"], v, [...META, "hero_image_alt"], EDIT_FIELDS.page_soutenir); }
+export async function updatePageRecherche(v) { return singletonUpdate("page_recherche", "Page Recherche", ["/recherche"], v, [...META, "hero_image_alt"], EDIT_FIELDS.page_recherche); }
 
 // Pages annexes (À propos / Mentions légales / Contact) — clé = slug
-async function simplePageUpdate(slug, label, paths, v, requiredKeys) {
+async function simplePageUpdate(slug, label, paths, v, requiredKeys, allowedFields) {
   try {
     const miss = missingRequired(v, requiredKeys);
     if (miss.length) return { ok: false, error: "Enregistrement refusé : remplissez le(s) champ(s) obligatoire(s) (marqués *) — " + miss.join(", ") + "." };
     const supabase = await getAuthedClient();
-    const { error } = await supabase.from("simple_pages").update({ ...v, updated_at: new Date().toISOString() }).eq("slug", slug);
+    const patch = { updated_at: new Date().toISOString() };
+    for (const k of allowedFields || []) {
+      if (k in v) patch[k] = v[k];
+    }
+    const { error } = await supabase.from("simple_pages").update(patch).eq("slug", slug);
     if (error) return { ok: false, error: "Échec de l'enregistrement : " + error.message + ". Réessayez ; si le problème persiste, vérifiez vos droits ou reconnectez-vous." };
     return finish(supabase, label, paths);
   } catch (e) {
     return { ok: false, error: e.message };
   }
 }
-export async function updateApropos(v) { return simplePageUpdate("apropos", "Page À propos", ["/a-propos"], v, [...META, "hero_image_alt"]); }
-export async function updateMentions(v) { return simplePageUpdate("mentions", "Page Mentions légales", ["/mentions-legales"], v, [...META, "hero_image_alt"]); }
-export async function updateContact(v) { return simplePageUpdate("contact", "Page Contact", ["/contact"], v, [...META, "hero_image_alt"]); }
+export async function updateApropos(v) { return simplePageUpdate("apropos", "Page À propos", ["/a-propos"], v, [...META, "hero_image_alt"], EDIT_FIELDS.simple_pages); }
+export async function updateMentions(v) { return simplePageUpdate("mentions", "Page Mentions légales", ["/mentions-legales"], v, [...META, "hero_image_alt"], EDIT_FIELDS.simple_pages); }
+export async function updateContact(v) { return simplePageUpdate("contact", "Page Contact", ["/contact"], v, [...META, "hero_image_alt"], EDIT_FIELDS.simple_pages); }
 
 /* ---------- Pages internes : listes ---------- */
 export async function replacePeleCards(items) { return listReplace("pele_presentation_cards", "Présentation (cartes)", ["/le-pelerinage"], (it, i) => ({ title: it.title, text: it.text, sort_order: i + 1 }), items, ["title", "text"]); }
@@ -330,13 +280,16 @@ export async function addEditor(email, role) {
     if (!(await isAdmin(supabase))) return { ok: false, error: "Réservé à l'administrateur." };
     const e = (email || "").trim().toLowerCase();
     if (!validEmail(e)) return { ok: false, error: "Adresse e-mail invalide." };
+    // Refuse if email already exists: use updateRole or removeUser instead
+    const { data: existing } = await supabase.from("app_users").select("email").eq("email", e).maybeSingle();
+    if (existing) return { ok: false, error: "Adresse e-mail déjà autorisée. Utilisez « Changer le rôle » pour la modifier." };
     const r = role === "admin" ? "admin" : "editor";
     const {
       data: { user },
     } = await supabase.auth.getUser();
     const { error } = await supabase
       .from("app_users")
-      .upsert({ email: e, role: r, added_by: user?.email }, { onConflict: "email" });
+      .insert({ email: e, role: r, added_by: user?.email });
     if (error) return { ok: false, error: "Échec de l'enregistrement : " + error.message + ". Réessayez ; si le problème persiste, vérifiez vos droits ou reconnectez-vous." };
     await logActivity(supabase, "gestion", `Autorisation de ${e} (${r})`);
     revalidatePath("/admin");
