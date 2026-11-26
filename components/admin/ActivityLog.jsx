@@ -11,6 +11,7 @@ const ACTION_LABELS = {
   connexion: { label: "Connexion", color: "var(--navy-600)" },
   modification: { label: "Modification", color: "var(--gold-700)" },
   gestion: { label: "Gestion des droits", color: "var(--liturgic-purple)" },
+  securite: { label: "Sécurité", color: "var(--liturgic-red)" },
 };
 
 function formatDate(iso) {

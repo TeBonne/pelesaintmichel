@@ -1,5 +1,6 @@
 "use server";
 import { createClient } from "@/lib/supabase/server";
+import { getMfaState } from "@/lib/supabase/mfa";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -11,6 +12,9 @@ async function getAuthedClient() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) throw new Error("Votre session a expiré. Reconnectez-vous (page de connexion) puis réessayez.");
+  // Aucune écriture sans double authentification validée pour cette session.
+  const { hasFactor, aal2 } = await getMfaState(supabase, user);
+  if (!hasFactor || !aal2) throw new Error("Double authentification requise. Rechargez la page, saisissez votre code de sécurité puis réessayez.");
   return supabase;
 }
 
@@ -394,6 +398,27 @@ export async function logLogin() {
   try {
     const supabase = await getAuthedClient();
     await logActivity(supabase, "connexion", null);
+    return { ok: true };
+  } catch {
+    return { ok: false };
+  }
+}
+
+/* ---------- Sécurité du compte (journal) ---------- */
+
+const SECURITY_EVENTS = {
+  mfa_enabled: "Double authentification activée",
+  mfa_device_added: "Appareil d'authentification ajouté",
+  mfa_device_removed: "Appareil d'authentification retiré",
+  password_changed: "Mot de passe modifié",
+};
+
+export async function logSecurityEvent(kind) {
+  try {
+    const detail = SECURITY_EVENTS[kind];
+    if (!detail) return { ok: false };
+    const supabase = await getAuthedClient();
+    await logActivity(supabase, "securite", detail);
     return { ok: true };
   } catch {
     return { ok: false };

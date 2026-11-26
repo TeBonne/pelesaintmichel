@@ -38,6 +38,10 @@ const GROUPS = [
     ],
   },
   {
+    group: "Mon compte",
+    items: [{ href: "/admin/securite", label: "Sécurité & double authentification" }],
+  },
+  {
     group: "Administration",
     adminOnly: true,
     items: [

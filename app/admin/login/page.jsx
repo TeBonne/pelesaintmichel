@@ -1,11 +1,8 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { logLogin } from "../actions";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -22,13 +19,10 @@ export default function LoginPage() {
       setLoading(false);
       return;
     }
-    try {
-      await logLogin();
-    } catch {
-      // journalisation best-effort
-    }
-    router.replace("/admin");
-    router.refresh();
+    // Étape suivante décidée par le middleware : code de double authentification,
+    // ou configuration de celle-ci à la première connexion. La connexion est
+    // journalisée une fois cette seconde étape validée.
+    window.location.assign("/admin");
   };
 
   const inputStyle = {
@@ -100,6 +94,9 @@ export default function LoginPage() {
             </span>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="current-password" style={inputStyle} />
           </label>
+          <a href="/admin/mot-de-passe-oublie" style={{ alignSelf: "flex-end", marginTop: -8, fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--navy-600)" }}>
+            Mot de passe oublié ?
+          </a>
 
           {error && (
             <div style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--liturgic-red)", background: "rgba(123,34,48,0.08)", padding: "8px 12px", borderRadius: "var(--r-sm)" }}>
