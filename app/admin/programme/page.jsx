@@ -44,7 +44,7 @@ export default async function AdminProgramme() {
         { key: "number", label: "Numéro", placeholder: "1" },
         { key: "date_label", label: "Date", placeholder: "Vendredi 8 mai" },
         { key: "title", label: "Titre", required: true },
-        { key: "body", label: "Description", type: "textarea", rows: 3 },
+        { key: "body", label: "Description", type: "richtext" },
         { key: "image_url", label: "Photo", type: "image", required: true },
         { key: "image_alt", label: "Texte alternatif de la photo (SEO)", required: true },
       ]} />

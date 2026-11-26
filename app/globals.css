@@ -366,3 +366,36 @@ header .om-logoin { animation: omLogoIn 1s cubic-bezier(.22,.61,.36,1) both; }
 @media (max-width: 720px) { .pele-grid-footer { grid-template-columns: 1fr 1fr; gap: 28px; } }
 .pele-footer-brand-col { grid-column: span 2; }
 @media (max-width: 720px) { .pele-footer-brand-col { grid-column: 1 / -1; } }
+
+/* ============================================================
+   TEXTE ENRICHI (champs "Description" du back-office)
+   Meme rendu sur le site (.pele-rich) et dans l editeur (.adm-rich)
+   ============================================================ */
+.pele-rich > :first-child { margin-top: 0; }
+.pele-rich > :last-child { margin-bottom: 0; }
+.pele-rich p { margin: 0 0 0.7em; }
+.pele-rich ul, .pele-rich ol { margin: 0 0 0.7em; padding-left: 1.3em; }
+.pele-rich li > p { margin: 0; }
+.pele-rich a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+.pele-rich a:hover { color: var(--link-hover); }
+.pele-rich blockquote { margin: 0 0 0.7em; padding-left: 0.9em; border-left: 3px solid var(--gold-500); font-style: italic; }
+.pele-rich h4 { font-family: var(--font-display); font-weight: 600; font-size: 1.05em; letter-spacing: 0.03em; color: var(--navy-700); margin: 0.9em 0 0.4em; }
+.pele-rich hr { border: none; height: 1px; background: var(--line-gold); opacity: 0.6; margin: 1em 0; }
+
+/* Carte entierement cliquable sans imbriquer de liens : le lien du titre couvre la carte */
+.pele-stretched-link::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+/* Une description contenant des liens passe au-dessus, pour que ses liens restent cliquables */
+.pele-rich:has(a) { position: relative; z-index: 2; }
+
+.adm-rich { border: 1.5px solid var(--stone-300); border-radius: var(--r-sm); background: var(--ivory); }
+.adm-rich:focus-within { border-color: var(--gold-600); box-shadow: 0 0 0 2px rgba(201,164,94,0.25); }
+.adm-rich-toolbar { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px; border-bottom: 1px solid var(--line); background: var(--parchment); border-radius: var(--r-sm) var(--r-sm) 0 0; }
+.adm-rich-btn { min-width: 30px; height: 30px; padding: 0 8px; font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--navy-700); background: var(--ivory); border: 1px solid var(--stone-300); border-radius: var(--r-sm); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+.adm-rich-btn:hover:not(:disabled) { border-color: var(--gold-600); }
+.adm-rich-btn.adm-on { background: var(--navy-700); color: var(--gold-100); border-color: var(--navy-700); }
+.adm-rich-btn:disabled { opacity: 0.4; cursor: default; }
+.adm-rich-sep { width: 1px; background: var(--line-strong); margin: 2px 4px; }
+.adm-rich-linkbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px; border-bottom: 1px solid var(--line); background: var(--gold-100); }
+.adm-rich-linkbar input { flex: 1; min-width: 180px; height: 30px; padding: 0 10px; font-family: var(--font-body); font-size: 14px; color: var(--ink); background: var(--ivory); border: 1px solid var(--stone-300); border-radius: var(--r-sm); }
+.adm-rich .adm-rich-content { min-height: 110px; padding: 10px 12px; font-family: var(--font-body); font-size: 15px; line-height: 1.55; color: var(--ink); }
+.adm-rich .adm-rich-content:focus-visible { outline: none; }

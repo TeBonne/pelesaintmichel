@@ -61,7 +61,7 @@ export default async function AdminRessources() {
       ]} />
       <RepeaterForm title="Documents PDF" action={replaceResDocuments} initial={documents} emptyItem={{ title: "", description: "", tag: "", url: "" }} addLabel="Ajouter un document" fields={[
         { key: "title", label: "Titre", required: true },
-        { key: "description", label: "Description", type: "textarea", rows: 2 },
+        { key: "description", label: "Description", type: "richtext" },
         { key: "tag", label: "Étiquette", placeholder: "PDF · A3" },
         { key: "url", label: "Lien de téléchargement", required: true },
       ]} />
@@ -74,7 +74,7 @@ export default async function AdminRessources() {
       <RepeaterForm title="Newsletters" action={replaceResNewsletters} initial={newsletters} emptyItem={{ title: "", date_label: "", description: "", url: "" }} addLabel="Ajouter une newsletter" fields={[
         { key: "title", label: "Titre", required: true },
         { key: "date_label", label: "Date", placeholder: "Mai 2026", required: true },
-        { key: "description", label: "Description", type: "textarea", rows: 2 },
+        { key: "description", label: "Description", type: "richtext" },
         { key: "url", label: "Lien", required: true },
       ]} />
 

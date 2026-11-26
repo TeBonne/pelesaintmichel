@@ -47,7 +47,7 @@ export default async function AdminBoutique() {
         fields={[
           { key: "name", label: "Nom du produit", required: true, hint: "Sert aussi de texte alternatif (SEO) à la photo." },
           { key: "price", label: "Prix", placeholder: "19 €", required: true },
-          { key: "description", label: "Description", type: "textarea", rows: 3 },
+          { key: "description", label: "Description", type: "richtext" },
           { key: "image_url", label: "Photo", type: "image", required: true },
         ]}
       />

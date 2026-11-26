@@ -6,6 +6,7 @@ import { getProgrammeContent } from "@/lib/queries";
 import { pageMeta } from "@/lib/seo";
 import Breadcrumb from "@/components/page/Breadcrumb";
 import RelatedLinks from "@/components/page/RelatedLinks";
+import RichText from "@/components/ui/RichText";
 
 export const revalidate = 3600;
 
@@ -31,7 +32,7 @@ function DayCard({ number, date_label, title, body, image_url, image_alt }) {
         <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 26, color: "var(--gold-700)" }}>{number}</div>
         <div style={{ fontFamily: "var(--font-sans)", fontWeight: 600, fontSize: 12, letterSpacing: "0.26em", textTransform: "uppercase", color: "var(--gold-700)" }}>{date_label}</div>
         <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 22, letterSpacing: "0.03em", color: "var(--navy-700)", margin: "6px 0 10px" }}>{title}</h3>
-        <p style={{ fontFamily: "var(--font-body)", fontSize: 16, lineHeight: 1.6, color: "var(--ink-soft)", margin: 0 }}>{body}</p>
+        <RichText html={body} style={{ fontFamily: "var(--font-body)", fontSize: 16, lineHeight: 1.6, color: "var(--ink-soft)" }} />
       </div>
     </article>
   );

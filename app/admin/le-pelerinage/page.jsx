@@ -52,7 +52,7 @@ export default async function AdminPelerinage() {
         { key: "nom", label: "Nom", required: true },
         { key: "tag", label: "Sous-titre / catégorie" },
         { key: "logo_url", label: "Logo", type: "image", required: true },
-        { key: "description", label: "Description", type: "textarea", rows: 3 },
+        { key: "description", label: "Description", type: "richtext" },
       ]} />
 
       <SingletonForm title="Message de l'évêque" action={up} imageFolder="pelerinage" initial={initial} fields={[

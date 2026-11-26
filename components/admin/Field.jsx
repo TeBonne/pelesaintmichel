@@ -1,4 +1,5 @@
 "use client";
+import RichTextField from "./RichTextField";
 
 const labelStyle = {
   fontFamily: "var(--font-sans)",
@@ -20,6 +21,7 @@ const inputStyle = {
 };
 
 export default function Field({ label, value, onChange, type = "text", placeholder, rows = 3, hint, options = [], required = false }) {
+  if (type === "richtext") return <RichTextField label={label} value={value} onChange={onChange} hint={hint} required={required} />;
   const opts = options.map((o) => (typeof o === "string" ? { value: o, label: o } : o));
   return (
     <label style={{ display: "flex", flexDirection: "column", gap: 6 }}>

@@ -6,6 +6,8 @@ import { getBoutiqueContent } from "@/lib/queries";
 import { pageMeta } from "@/lib/seo";
 import Breadcrumb from "@/components/page/Breadcrumb";
 import RelatedLinks from "@/components/page/RelatedLinks";
+import RichText from "@/components/ui/RichText";
+import { toPlainText } from "@/lib/richtext";
 
 export const revalidate = 3600;
 
@@ -30,7 +32,7 @@ function ProductCard({ name, price, description, image_url }) {
           <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 18, color: "var(--navy-700)", margin: 0 }}>{name}</h3>
           <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, color: "var(--gold-700)", whiteSpace: "nowrap" }}>{price}</span>
         </div>
-        <p style={{ fontFamily: "var(--font-body)", fontSize: 15, lineHeight: 1.55, color: "var(--ink-soft)", margin: 0 }}>{description}</p>
+        <RichText html={description} style={{ fontFamily: "var(--font-body)", fontSize: 15, lineHeight: 1.55, color: "var(--ink-soft)" }} />
       </div>
     </div>
   );
@@ -54,7 +56,7 @@ export default async function BoutiquePage() {
           "@type": "Product",
           name: pr.name,
           image: abs(pr.image_url),
-          description: pr.description || undefined,
+          description: toPlainText(pr.description) || undefined,
           ...(price
             ? { offers: { "@type": "Offer", priceCurrency: "EUR", price, availability: "https://schema.org/PreOrder", url: "https://www.pelesaintmichel.fr/boutique" } }
             : {}),

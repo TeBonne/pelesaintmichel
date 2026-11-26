@@ -1,6 +1,7 @@
 import Overline from "@/components/ui/Overline";
 import GoldRule from "@/components/ui/GoldRule";
 import PhotoSlot from "@/components/ui/PhotoSlot";
+import RichText from "@/components/ui/RichText";
 
 export const PROGRAMME_DEFAULT = [
   {
@@ -79,17 +80,15 @@ export default function Programme({ days = PROGRAMME_DEFAULT }) {
                 >
                   {day.title}
                 </h3>
-                <p
+                <RichText
+                  html={day.body}
                   style={{
                     fontFamily: "var(--font-body)",
                     fontSize: 16,
                     lineHeight: 1.6,
                     color: "var(--ink-soft)",
-                    margin: 0,
                   }}
-                >
-                  {day.body}
-                </p>
+                />
               </div>
             </article>
           ))}

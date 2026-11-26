@@ -7,6 +7,7 @@ import { getPelerinageContent } from "@/lib/queries";
 import { pageMeta } from "@/lib/seo";
 import Breadcrumb from "@/components/page/Breadcrumb";
 import RelatedLinks from "@/components/page/RelatedLinks";
+import RichText from "@/components/ui/RichText";
 
 export const revalidate = 3600;
 
@@ -41,7 +42,7 @@ function Partner({ nom, tag, logo_url, description }) {
           <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 19, color: "var(--navy-700)" }}>{nom}</div>
           <div style={{ fontFamily: "var(--font-sans)", fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--gold-700)" }}>{tag}</div>
         </div>
-        <p style={{ fontFamily: "var(--font-body)", fontSize: 16, lineHeight: 1.55, color: "var(--ink-soft)", margin: 0 }}>{description}</p>
+        <RichText html={description} style={{ fontFamily: "var(--font-body)", fontSize: 16, lineHeight: 1.55, color: "var(--ink-soft)" }} />
       </div>
     </div>
   );

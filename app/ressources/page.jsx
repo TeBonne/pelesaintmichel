@@ -6,6 +6,7 @@ import { getRessourcesContent } from "@/lib/queries";
 import { pageMeta } from "@/lib/seo";
 import Breadcrumb from "@/components/page/Breadcrumb";
 import RelatedLinks from "@/components/page/RelatedLinks";
+import RichText from "@/components/ui/RichText";
 
 export const revalidate = 3600;
 
@@ -98,14 +99,20 @@ export default async function RessourcesPage() {
           <SectionHead over={p.documents_overline} title={p.documents_title} />
           <div className="pele-grid-2">
             {(documents || []).map((d) => (
-              <a key={d.id} href={d.url || "#"} style={{ display: "flex", gap: 16, alignItems: "flex-start", background: "var(--parchment)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "20px 22px", textDecoration: "none", boxShadow: "var(--shadow-sm)" }}>
+              // Toute la carte reste cliquable (lien « étiré » sur le titre), sans imbriquer
+              // les liens de la description dans un autre lien.
+              <div key={d.id} style={{ position: "relative", display: "flex", gap: 16, alignItems: "flex-start", background: "var(--parchment)", border: "1px solid var(--line)", borderRadius: "var(--r-md)", padding: "20px 22px", boxShadow: "var(--shadow-sm)" }}>
                 <span style={{ flex: "none", width: 46, height: 46, borderRadius: "var(--r-sm)", background: "var(--navy-700)", color: "var(--gold-300)", display: "flex", alignItems: "center", justifyContent: "center" }}><DownloadIcon /></span>
-                <span style={{ flex: 1 }}>
-                  <span style={{ display: "block", fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 18, color: "var(--navy-700)" }}>{d.title}</span>
-                  <span style={{ display: "block", fontFamily: "var(--font-body)", fontSize: 15, color: "var(--ink-soft)", margin: "4px 0 8px" }}>{d.description}</span>
-                  {d.tag && <span style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--gold-700)", background: "var(--gold-100)", border: "1px solid var(--gold-300)", padding: "3px 9px", borderRadius: "var(--r-pill)" }}>{d.tag}</span>}
-                </span>
-              </a>
+                <div style={{ flex: 1 }}>
+                  <a className="pele-stretched-link" href={d.url || "#"} style={{ display: "block", fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 18, color: "var(--navy-700)", textDecoration: "none" }}>{d.title}</a>
+                  <RichText html={d.description} style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--ink-soft)", marginTop: 4 }} />
+                  {d.tag && (
+                    <div style={{ marginTop: 8 }}>
+                      <span style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "var(--gold-700)", background: "var(--gold-100)", border: "1px solid var(--gold-300)", padding: "3px 9px", borderRadius: "var(--r-pill)" }}>{d.tag}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
             ))}
           </div>
         </SectionWide>
@@ -114,16 +121,16 @@ export default async function RessourcesPage() {
           <SectionHead over={p.newsletters_overline} title={p.newsletters_title} />
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {(newsletters || []).map((n) => (
-              <a key={n.id} href={n.url || "#"} style={{ display: "flex", gap: 18, alignItems: "center", justifyContent: "space-between", background: "var(--ivory)", border: "1px solid var(--line)", borderLeft: "3px solid var(--gold-500)", borderRadius: "var(--r-md)", padding: "18px 22px", textDecoration: "none", boxShadow: "var(--shadow-sm)" }}>
-                <span>
-                  <span style={{ display: "block", fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 18, color: "var(--navy-700)" }}>{n.title}</span>
-                  <span style={{ display: "block", fontFamily: "var(--font-body)", fontSize: 15, color: "var(--ink-soft)", marginTop: 3 }}>{n.description}</span>
-                </span>
+              <div key={n.id} style={{ position: "relative", display: "flex", gap: 18, alignItems: "center", justifyContent: "space-between", background: "var(--ivory)", border: "1px solid var(--line)", borderLeft: "3px solid var(--gold-500)", borderRadius: "var(--r-md)", padding: "18px 22px", boxShadow: "var(--shadow-sm)" }}>
+                <div>
+                  <a className="pele-stretched-link" href={n.url || "#"} style={{ display: "block", fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 18, color: "var(--navy-700)", textDecoration: "none" }}>{n.title}</a>
+                  <RichText html={n.description} style={{ fontFamily: "var(--font-body)", fontSize: 15, color: "var(--ink-soft)", marginTop: 3 }} />
+                </div>
                 <span style={{ flex: "none", display: "flex", alignItems: "center", gap: 14 }}>
                   <span style={{ fontFamily: "var(--font-sans)", fontSize: 12, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--gold-700)" }}>{n.date_label}</span>
-                  <span style={{ fontFamily: "var(--font-serif)", fontSize: 18, color: "var(--navy-600)" }}>→</span>
+                  <span aria-hidden="true" style={{ fontFamily: "var(--font-serif)", fontSize: 18, color: "var(--navy-600)" }}>→</span>
                 </span>
-              </a>
+              </div>
             ))}
           </div>
           {p.newsletters_footer && (

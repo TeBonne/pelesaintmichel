@@ -61,7 +61,7 @@ export default async function AdminAccueil() {
         fields={[
           { key: "date_label", label: "Date" },
           { key: "title", label: "Titre", required: true },
-          { key: "body", label: "Description", type: "textarea", rows: 3 },
+          { key: "body", label: "Description", type: "richtext" },
           { key: "photo_caption", label: "Légende / texte alternatif (SEO)", required: true },
           { key: "image_url", label: "Photo", type: "image", required: true },
           { key: "image_pos", label: "Cadrage", hint: "Ex. center 40%" },
