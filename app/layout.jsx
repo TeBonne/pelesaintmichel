@@ -1,6 +1,7 @@
 import "./globals.css";
 import localFont from "next/font/local";
 import Anims from "@/components/site/Anims";
+import { SITE_DOMAIN, SITE_NAME } from "@/lib/constants";
 
 // Polices hébergées dans le projet (public/fonts) : le build ne dépend plus de Google Fonts.
 // Chaque famille a deux fichiers, comme le servait Google : « latin » (français, préchargé)
@@ -71,23 +72,26 @@ const bitter = localFont({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://www.pelesaintmichel.fr"),
+  metadataBase: new URL(SITE_DOMAIN),
   title: "Pèlerinage de Saint Michel 2026 — De Saint-Malo au Mont, 8–10 mai",
   description:
     "Pèlerinage catholique de toute la France au Mont-Saint-Michel : 3 jours de marche et de prière de Saint-Malo au Mont, du 8 au 10 mai 2026. Inscription en chapitre ou en individuel, branche famille dès 6 ans.",
   robots: { index: true, follow: true },
-  alternates: { canonical: "https://www.pelesaintmichel.fr/" },
+  alternates: { canonical: `${SITE_DOMAIN}/` },
   openGraph: {
     type: "website",
-    siteName: "Pèlerinage de Saint Michel",
+    siteName: SITE_NAME,
     locale: "fr_FR",
     title: "Pèlerinage de Saint Michel 2026 — De Saint-Malo au Mont",
     description:
       "3 jours et 3 nuits de marche et de prière, du 8 au 10 mai 2026. Devenez miquelot.",
-    url: "https://www.pelesaintmichel.fr/",
+    url: `${SITE_DOMAIN}/`,
   },
   twitter: { card: "summary_large_image" },
 };
+
+// Note: event dates are in site_settings (event_dates_label, event_start_date, event_end_date)
+// Hardcoded here for generateMetadata; update when event changes
 
 export const viewport = {
   themeColor: "#103A5C",

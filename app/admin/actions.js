@@ -124,6 +124,18 @@ export async function updateSettings(v) {
 
 /* ---------- Listes (remplacement complet, ordre = position) ---------- */
 
+// Wrapper for replaceStats, replaceProgramme, etc. to maintain backwards compatibility
+async function replaceList(table, rows, detail, requiredKeys) {
+  for (let i = 0; i < rows.length; i++) {
+    const miss = (requiredKeys || []).filter((k) => !String(rows[i][k] ?? "").trim());
+    if (miss.length) return { ok: false, error: `Enregistrement refusé — ligne #${i + 1} : remplissez le(s) champ(s) obligatoire(s) (marqués *) — ${miss.join(", ")}.` };
+  }
+  const supabase = await getAuthedClient();
+  const { error } = await supabase.rpc("replace_list_atomic", { table_name: table, rows: rows });
+  if (error) return { ok: false, error: "Échec de l'enregistrement : " + error.message + ". Réessayez ; si le problème persiste, vérifiez vos droits ou reconnectez-vous." };
+  return finish(supabase, detail);
+}
+
 export async function replaceStats(items) {
   try {
     const rows = items.map((it, i) => ({ value: it.value, title: it.title, subtitle: it.subtitle, sort_order: i + 1 }));
