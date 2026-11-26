@@ -42,6 +42,24 @@ Variables à renseigner chez l'hébergeur : les deux `NEXT_PUBLIC_SUPABASE_*` ci
 3. Aller sur `/admin/login`, se connecter, modifier les sections, **Enregistrer**.
    Les changements apparaissent immédiatement sur le site.
 
+## Sécurité de la connexion
+- **Double authentification obligatoire** (application à codes : Google Authenticator, Microsoft
+  Authenticator, Authy…). À la première connexion, chaque compte est conduit sur `/admin/securite`
+  pour scanner un QR code ; ensuite, chaque connexion demande le mot de passe puis le code à 6 chiffres
+  (`/admin/mfa`). Contrôlé à trois niveaux : `lib/supabase/middleware.js` (accès aux pages),
+  `getAuthedClient()` dans `app/admin/actions.js` (écritures), et la base (voir ci-dessous).
+- **Appareil de secours** : `/admin/securite` permet d'ajouter un second appareil. Fortement conseillé.
+- **Téléphone perdu** (plus aucun appareil) : dans Supabase → Authentication → Users → ouvrir le compte →
+  supprimer ses facteurs MFA ; l'utilisateur reconfigure à la connexion suivante.
+- **Mot de passe oublié** : lien sur la page de connexion → e-mail → `/admin/auth/confirm` →
+  `/admin/nouveau-mot-de-passe` (12 caractères minimum). Le lien doit être ouvert dans le navigateur
+  qui a fait la demande. Prérequis dans Supabase → Authentication → URL Configuration :
+  *Site URL* = l'adresse du site, et *Redirect URLs* contenant `https://<adresse-du-site>/**`
+  (plus `http://localhost:3000/**` pour le développement).
+- L'envoi d'e-mails intégré à Supabase est limité (quelques e-mails par heure, et seulement vers les
+  membres de l'organisation Supabase) : brancher un SMTP (Authentication → Emails → SMTP Settings)
+  avant de donner accès à des éditeurs.
+
 ## Rôles, éditeurs et journal
 Deux rôles : **administrateur** (toi — édite le contenu *et* gère les droits, voit le journal)
 et **éditeur** (édite uniquement le contenu).
@@ -96,6 +114,17 @@ requis sont marqués d'un astérisque rouge dans l'admin).
 - **Listes** (chiffres, vidéos, FAQ, documents, newsletters, paliers de don, menu…) : leurs champs clés sont requis.
 
 Des valeurs alt par défaut ont été pré-remplies pour tout le contenu existant ; à affiner via l'admin.
+
+## Texte enrichi (champs « Description »)
+Les champs « Description » du back-office utilisent un éditeur visuel (TipTap) : type de champ
+`richtext` dans les formulaires (`components/admin/RichTextField.jsx`, branché dans `Field.jsx`).
+Pour passer un autre champ en texte enrichi : mettre `type: "richtext"` dans sa définition **et**
+l'afficher côté site avec `<RichText html={…} />` (`components/ui/RichText.jsx`).
+- Le contenu est enregistré en HTML dans la même colonne. Les anciens textes bruts restent valides.
+- À l'affichage, `RichText` ne laisse passer qu'une liste blanche de balises (paragraphes, gras,
+  italique, souligné, barré, listes, citation, lien, intertitre, séparateur, alignement).
+- Pour un usage en texte seul (données structurées SEO…) : `toPlainText()` de `lib/richtext.js`.
+- Les « SEO — Description » restent en texte simple : une balise meta ne peut pas contenir de mise en forme.
 
 ## Limites connues / suites possibles
 - **Boutique** : catalogue d'affichage (titre, prix, description, photo). Pas de panier/paiement (prévu en externe).
